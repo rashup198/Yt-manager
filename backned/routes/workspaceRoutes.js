@@ -9,14 +9,16 @@ const {
     getWorkspaceById,
     updateWorkspace,
     deleteWorkspace,
-    inviteEditor
+    inviteEditor,
+    confirmInvite
 } = require('../controller/WorkspaceController');
 
 router.post('/workspaces', auth, isYouTuber, createWorkspace);
 router.get('/workspaces', auth, isYouTuber, getAllWorkspaces);
-router.get('/workspaces/:id', auth, getWorkspaceById);  // Both YouTubers and Editors might need this
+router.get('/workspaces/:id', auth, getWorkspaceById);  
 router.put('/workspaces/:id', auth, isYouTuber, updateWorkspace);
 router.delete('/workspaces/:id', auth, isYouTuber, deleteWorkspace);
 router.post('/workspaces/:id/invite', auth, isYouTuber, inviteEditor);
+router.get('/confirm-invite', auth, confirmInvite)
 
 module.exports = router;

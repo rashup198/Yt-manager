@@ -165,13 +165,18 @@ exports.inviteEditor = async (req, res) => {
         }
 
         // Ensure the `editors` field is initialized as an array
-        if (!workspace.editors) {
+        if (!Array.isArray(workspace.editors)) {
             workspace.editors = [];
         }
 
         // Ensure the `workspaces` field is initialized as an array
-        if (!editor.workspaces) {
+        if (!Array.isArray(editor.workspaces)) {
             editor.workspaces = [];
+        }
+
+        // Ensure the `invites` field is initialized as an array
+        if (!Array.isArray(editor.invites)) {
+            editor.invites = [];
         }
 
         // Add editor to workspace and workspace to editor
@@ -179,28 +184,25 @@ exports.inviteEditor = async (req, res) => {
         await workspace.save();
 
         editor.workspaces.push(workspace._id);
+
+        // Generate a unique invitation token and add to editor's invites
+        const inviteToken = uuidv4();
+        editor.invites.push({ token: inviteToken, workspace: workspace._id });
         await editor.save();
+
+        // Generate invite link and send email
+        const inviteLink = `${process.env.FRONTEND_URL}/confirm-invite?token=${inviteToken}`;
+        await mailSender(
+            email,
+            'Invite from YT',
+            `You have been invited to join the workspace. Click the link to join: ${inviteLink}`
+        );
 
         res.status(200).json({
             success: true,
             message: 'Editor invited successfully',
             workspace
         });
-
-        // Generate a unique invitation token and send an email
-        const inviteToken = uuidv4();
-        editor.invites.push({ token: inviteToken, workspace: workspace._id });
-        await editor.save();
-
-
-        const inviteLink = `${process.env.FRONTEND_URL}/confirm-invite?token=${inviteToken}`;
-        
-
-        await mailSender(
-            email,
-            "Invite from Yt",
-            `This is the invite from the yt Join now ${inviteLink}`
-        );
 
     } catch (error) {
         console.error('Error inviting editor:', error);
@@ -211,21 +213,31 @@ exports.inviteEditor = async (req, res) => {
     }
 };
 
-
 exports.confirmInvite = async (req, res) => {
     try {
         const { token } = req.query;
 
+        // Find the user with the corresponding invitation token
         const editor = await User.findOne({ 'invites.token': token });
         if (!editor) {
             return res.status(404).json({ success: false, message: 'Invalid or expired token' });
         }
 
+        // Find the specific invite using the token
         const invite = editor.invites.find(inv => inv.token === token);
-        const workspace = await Workspace.findById(invite.workspace);
+        if (!invite) {
+            return res.status(404).json({ success: false, message: 'Invalid or expired token' });
+        }
 
+        // Find the workspace associated with the invite
+        const workspace = await Workspace.findById(invite.workspace);
         if (!workspace) {
             return res.status(404).json({ success: false, message: 'Workspace not found' });
+        }
+
+        // Check if the editor is already a part of the workspace
+        if (workspace.editors.includes(editor._id)) {
+            return res.status(400).json({ success: false, message: 'Editor is already part of this workspace' });
         }
 
         // Add editor to workspace and workspace to editor
@@ -248,4 +260,5 @@ exports.confirmInvite = async (req, res) => {
         });
     }
 };
+
 

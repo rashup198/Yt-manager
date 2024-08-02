@@ -37,40 +37,22 @@ const UserSchema = new mongoose.Schema({
         },
         trim: true
     },
-    tokens: [{
+    tokens: {
         accessToken: {
             type: String,
-        },
-        refreshToken: {
-            type: String,
         }
-    }],
+    },
     workspaces: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workspace',
+    }],
+    invites: [{
+        token: { type: String, required: true },
+        workspace: { type: mongoose.Schema.Types.ObjectId, ref: 'Workspace', required: true },
+        status: { type: String, enum: ['Pending', 'Accepted', 'Declined'], default: 'Pending' }
     }]
 }, {
     timestamps: true
-});
-
-// Hash password before saving
-UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
-});
-
-// Ensure email is unique and indexed
-UserSchema.index({ email: 1 }, { unique: true });
-
-// Method to compare passwords
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
-};
-
-// Virtual field for full name
-UserSchema.virtual('fullName').get(function () {
-    return `${this.firstName} ${this.lastName}`;
 });
 
 module.exports = mongoose.model('User', UserSchema);
