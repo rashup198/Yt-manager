@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const { auth } = require('../Middleware/auth');
+const { isYouTuber } = require('../Middleware/auth');
+const { isEditor } = require('../Middleware/auth');
 const {
     createWorkspace,
-    getUserWorkspaces,
-    addEditors
-} = require('../controllers/workspaceController');
-const { auth, isYouTuber } = require('../Middleware/auth');
+    getAllWorkspaces,
+    getWorkspaceById,
+    updateWorkspace,
+    deleteWorkspace,
+    inviteEditor
+} = require('../controller/WorkspaceController');
 
-// Create Workspace
-router.post('/create', auth, isYouTuber, createWorkspace);
-
-// Get User Workspaces
-router.get('/', auth, getUserWorkspaces);
-
-// Add Editors to Workspace
-router.post('/add-editors', auth, isYouTuber, addEditors);
+router.post('/workspaces', auth, isYouTuber, createWorkspace);
+router.get('/workspaces', auth, isYouTuber, getAllWorkspaces);
+router.get('/workspaces/:id', auth, getWorkspaceById);  // Both YouTubers and Editors might need this
+router.put('/workspaces/:id', auth, isYouTuber, updateWorkspace);
+router.delete('/workspaces/:id', auth, isYouTuber, deleteWorkspace);
+router.post('/workspaces/:id/invite', auth, isYouTuber, inviteEditor);
 
 module.exports = router;
