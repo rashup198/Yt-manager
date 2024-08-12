@@ -1,4 +1,4 @@
-import signupImg from "../assets/Images/signup.webp"; // Replace with an image relevant to YouTube or content creation
+import signupImg from "../assets/Images/singnup.jpg"; 
 import Template from "../componets/core/auth/SignUpform";
 
 function Signup() {

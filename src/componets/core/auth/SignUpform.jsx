@@ -70,12 +70,12 @@ function SignupForm() {
     {
       id: 1,
       tabName: "YouTuber",
-      type: "YouTuber", // Modified role to YouTuber
+      type: "YouTuber", 
     },
     {
       id: 2,
       tabName: "Editor",
-      type: "Editor", // Modified role to Editor
+      type: "Editor", 
     },
   ];
 

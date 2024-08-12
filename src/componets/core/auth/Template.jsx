@@ -1,6 +1,4 @@
-import { FcGoogle } from "react-icons/fc"
 import { useSelector } from "react-redux"
-
 import frameImg from "../../../assets/Images/frame.png"
 import LoginForm from "./LoginForm"
 import SignupForm from "./SignUpform"
@@ -33,15 +31,15 @@ function Template({ title, description1, description2, image, formType }) {
               width={508}
               height={400}
               loading="lazy"
-              className="h-[310px]"
+              className="h-[310px] object-contain"
             />
             <img
               src={image}
-              alt="Students"
+              alt="image"
               width={558}
               height={600}
               loading="lazy"
-              className="absolute -top-4 right-4 z-10"
+              className="absolute inset-0 mx-auto z-10 h-[280px] w-[280px] object-cover"
             />
           </div>
         </div>
