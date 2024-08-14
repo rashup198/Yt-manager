@@ -178,7 +178,9 @@ exports.inviteEditor = async (req, res) => {
         if (!Array.isArray(editor.invites)) {
             editor.invites = [];
         }
-
+        if (workspace.editors.includes(editor._id)) {
+            return res.status(400).json({ success: false, message: 'Editor is already part of this workspace' });
+        }
         // Add editor to workspace and workspace to editor
         workspace.editors.push(editor._id);
         await workspace.save();
