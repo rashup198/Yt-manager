@@ -28,5 +28,9 @@ export const endpoints = {
   }
 
   export const profileEndpoint={
-    DELETE_ACCOUNT:""
+    DELETE_ACCOUNT:"",
+    UPDATE_PROFILE_PHOTO:"",
+    UPDATE_PROFILE_DETAILS:"",
+    REMOVE_PROFILE_PHOTO:""
+
   }

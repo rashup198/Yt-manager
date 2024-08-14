@@ -2,7 +2,7 @@ import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
-// import { sendOtp, signUp } from '../services/operations/authAPI';
+import { sendOTP, signUp } from '../services/operations/authAPI';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import OtpInput from 'react-otp-input';
@@ -17,8 +17,8 @@ const VerifyEmail = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    const { accountType, email, password, confirmPassword, firstName, lastName } = signupData;
-    dispatch(signUp(accountType, email, password, confirmPassword, firstName, lastName, otp, navigate));
+    const { accountType, email, password, firstName, lastName } = signupData;
+    dispatch(signUp(accountType, email, password, firstName, lastName, otp, navigate));
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const VerifyEmail = () => {
             </Link>
           </div>
           <button
-            onClick={() => dispatch(sendOtp(signupData.email,navigate))}
+            onClick={() => dispatch(sendOTP(signupData.email,navigate))}
             className="text-blue-500 hover:underline focus:outline-none"
           >
             Resend it
