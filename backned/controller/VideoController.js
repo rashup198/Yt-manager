@@ -281,6 +281,33 @@ const getVideoDetails = async (req, res) => {
     }
 };
 
+// get all videos 
+
+const getAllVideos = async (req, res)=>{
+    try {
+        const videos = await Video.find().populate('workspace');
+
+        if (!videos || videos.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No videos found.',
+            });
+        }
+
+        // Return the videos
+        res.status(200).json({
+            success: true,
+            data: videos,
+        });
+    } catch (error) {
+        console.error('Error fetching videos:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch videos. Please try again later.',
+        });
+    }
+}
+
 
 module.exports = {
     upload,
@@ -289,5 +316,6 @@ module.exports = {
     rejectVideo,
     getVideos,
     getVideoDetails,
-    deleteVideo
+    deleteVideo,
+    getAllVideos
 };
