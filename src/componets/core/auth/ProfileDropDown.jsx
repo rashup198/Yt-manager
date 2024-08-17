@@ -8,13 +8,15 @@ import useOnClickOutside from "../../../hooks/useOnClickOutSide"
 import { logout } from "../../../services/operations/authAPI"
 
 export default function ProfileDropdown() {
-  const { user } = useSelector((state) => state.profile)
+  const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
   useOnClickOutside(ref, () => setOpen(false))
+  console.log(user);
+  
 
   if (!user) return null
 
@@ -22,7 +24,7 @@ export default function ProfileDropdown() {
     <button className="relative" onClick={() => setOpen(true)}>
       <div className="flex items-center gap-x-1">
         <img
-          src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}&background=%23fff&radius=50`}
+          src={`https://api.dicebear.com/5.x/initials/svg?seed=${user.firstName} ${user.lastName}&background=%23fff&radius=50`}
           alt={`profile-${user?.firstName}`}
           className="aspect-square w-[30px] rounded-full object-cover"
         />

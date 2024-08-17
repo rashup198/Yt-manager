@@ -77,8 +77,6 @@ exports.signUp = async (req, res) => {
             });
         }
 
-        // Check if YouTuber role is provided with youtubeChannelId
-
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -87,21 +85,26 @@ exports.signUp = async (req, res) => {
                 message: 'User with this email already exists.',
             });
         }
+
+        // Create a profile with default values
         const profileDetails = await Profile.create({
-            gender:null,
-            dateOfBirth:null,
-            about:null,
-            contactNumber:null,
-        })
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            contactNumber: null,
+        });
+
+        // Hash password before saving the user
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Create a new user
         const newUser = new User({
             email,
-            password,
+            password: hashedPassword, // Store hashed password
             firstName,
             lastName,
             additionalDetails: profileDetails._id,
             role,
-
         });
 
         // Save the new user
@@ -139,7 +142,6 @@ exports.signUp = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        // Get email and password from request body
         const { email, password } = req.body;
 
         // Check if email or password is missing
@@ -154,7 +156,6 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ email }).select('+password');
         
         if (!user) {
-            // If user not found with provided email
             return res.status(401).json({
                 success: false,
                 message: 'User is not registered with us. Please sign up to continue.',
@@ -174,11 +175,9 @@ exports.login = async (req, res) => {
         const token = jwt.sign(
             { email: user.email, id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            {
-                expiresIn: '24h',
-            }
+            { expiresIn: '24h' }
         );
-        user.token = token;
+
         // Ensure password is not sent back in response
         user.password = undefined;
 
@@ -187,13 +186,13 @@ exports.login = async (req, res) => {
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
             httpOnly: true,
         };
+
         res.cookie('token', token, options).status(200).json({
             success: true,
             token,
             user,
             message: 'User login successful.',
         });
-        console.log("this is the token", token);
 
     } catch (error) {
         console.error('Login error:', error);
@@ -203,7 +202,6 @@ exports.login = async (req, res) => {
         });
     }
 };
-
 
 
 

@@ -11,11 +11,13 @@ import PrivateRoute from "./componets/core/auth/PrivateRoute";
 
 
 import Hero from './Hero';
+import Navbar from './componets/common/Navbar';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
   return (
     <div  className=" w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
+      <Navbar></Navbar>
       <Routes>
         <Route path='/' element ={<Hero></Hero>}></Route>
         <Route path="/verify-email" element={<VerifyEmail />} />

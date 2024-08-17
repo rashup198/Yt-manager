@@ -16,6 +16,8 @@ app.use(cookieParser());
 
 const port = 5000;
 database.connect();
+app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
     origin: "http://localhost:5173",

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../../../services/operations/authAPI";
-import { toast } from "react-hot-toast";
+
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -25,28 +25,10 @@ function LoginForm() {
     }));
   };
 
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      toast.error("Please fill up all the required fields.");
-      return;
-    }
-
-    try {
-      const response = await dispatch(login(email, password, navigate));
-
-      if (response.payload.success) {
-        toast.success("User login successful.");
-        navigate("/dashboard");
-      } else {
-        toast.error(response.payload.message);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("Login failure. Please try again.");
-    }
-  };
+  const handleOnSubmit = (e) => {
+    e.preventDefault()
+    dispatch(login(email, password, navigate))
+  }
 
   return (
     <form
@@ -106,7 +88,7 @@ function LoginForm() {
         type="submit"
         className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
       >
-        Sign In
+        Log In
       </button>
     </form>
   );
