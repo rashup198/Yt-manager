@@ -6,6 +6,7 @@ const mailSender = require("../Middleware/mailSender");
 const OTP = require("../models/OTP");
 const crypto = require('crypto');
 const EmailVerificationToken = require('../models/emailVerification');
+const Profile = require('../models/Profile');
 
 require('dotenv').config();
 
@@ -86,13 +87,19 @@ exports.signUp = async (req, res) => {
                 message: 'User with this email already exists.',
             });
         }
-
+        const profileDetails = await Profile.create({
+            gender:null,
+            dateOfBirth:null,
+            about:null,
+            contactNumber:null,
+        })
         // Create a new user
         const newUser = new User({
             email,
             password,
             firstName,
             lastName,
+            additionalDetails: profileDetails._id,
             role,
 
         });
