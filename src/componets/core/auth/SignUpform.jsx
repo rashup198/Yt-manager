@@ -14,18 +14,14 @@ function SignupForm() {
 
   const [accountType, setAccountType] = useState("YouTuber");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    youtubeChannelId: "", // Added field for YouTube Channel ID
+    firstName: "",
+    lastName: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const { firstName, lastName, email, password, confirmPassword, youtubeChannelId } = formData;
+  const { email, password, firstName, lastName } = formData;
 
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
@@ -37,16 +33,6 @@ function SignupForm() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      toast.error("Passwords Do Not Match");
-      return;
-    }
-
-    if (accountType === "YouTuber" && !youtubeChannelId) {
-      toast.error("YouTube Channel ID is required for YouTubers.");
-      return;
-    }
-
     const signupData = {
       ...formData,
       role: accountType,
@@ -56,12 +42,10 @@ function SignupForm() {
     dispatch(sendOTP(formData.email, navigate));
 
     setFormData({
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
-      confirmPassword: "",
-      youtubeChannelId: "",
+      firstName: "",
+      lastName: "",
     });
     setAccountType("YouTuber");
   };
@@ -127,22 +111,6 @@ function SignupForm() {
             className="w-full rounded-md bg-gray-800 p-3 text-gray-300"
           />
         </label>
-        {accountType === "YouTuber" && (
-          <label className="w-full">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-gray-300">
-              YouTube Channel ID <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="youtubeChannelId"
-              value={youtubeChannelId}
-              onChange={handleOnChange}
-              placeholder="Enter YouTube Channel ID"
-              className="w-full rounded-md bg-gray-800 p-3 text-gray-300"
-            />
-          </label>
-        )}
         <div className="flex gap-x-4">
           <label className="relative w-1/2">
             <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-gray-300">
@@ -168,30 +136,7 @@ function SignupForm() {
               )}
             </span>
           </label>
-          <label className="relative w-1/2">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-gray-300">
-              Confirm Password <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleOnChange}
-              placeholder="Confirm Password"
-              className="w-full rounded-md bg-gray-800 p-3 pr-10 text-gray-300"
-            />
-            <span
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-            >
-              {showConfirmPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
-          </label>
+          
         </div>
         <button
           type="submit"

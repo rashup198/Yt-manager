@@ -58,7 +58,7 @@ exports.sendOTP = async (req, res) => {
 
 exports.signUp = async (req, res) => {
     try {
-        const { email, password, firstName, lastName, role, youtubeChannelId } = req.body;
+        const { email, password, firstName, lastName, role } = req.body;
 
         // Check if all required fields are provided
         if (!email || !password || !firstName || !lastName || !role) {
@@ -77,12 +77,6 @@ exports.signUp = async (req, res) => {
         }
 
         // Check if YouTuber role is provided with youtubeChannelId
-        if (role === 'YouTuber' && !youtubeChannelId) {
-            return res.status(400).json({
-                success: false,
-                message: 'YouTube channel ID is required for YouTubers.',
-            });
-        }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -100,7 +94,7 @@ exports.signUp = async (req, res) => {
             firstName,
             lastName,
             role,
-            youtubeChannelId
+
         });
 
         // Save the new user
@@ -122,7 +116,6 @@ exports.signUp = async (req, res) => {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 role: newUser.role,
-                youtubeChannelId: newUser.youtubeChannelId,
             },
             message: 'User registered successfully.',
         });
@@ -178,7 +171,7 @@ exports.login = async (req, res) => {
                 expiresIn: '24h',
             }
         );
-
+        user.token = token;
         // Ensure password is not sent back in response
         user.password = undefined;
 

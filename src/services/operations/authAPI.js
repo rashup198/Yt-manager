@@ -36,7 +36,7 @@ export function sendOTP(email, navigate){
              
         } catch (error) {
             console.log("Send otp api error", error);
-            toast.error("Could not send otp")
+            toast.error(error.message)
             
         }
         dispatch(setLoading(false))
@@ -46,40 +46,36 @@ export function sendOTP(email, navigate){
 
 
 
-export function signUp(
-    email, password, firstName, lastName, role, youtubeChannelId ,otp,navigate
-){
-    return async(dispatch)=>{
-        const toastId= toast.loading("Loading...")
-        dispatch(setLoading(true))
+export function signUp(email, password, firstName, lastName, role, otp, navigate) {
+    return async (dispatch) => {
+        const toastId = toast.loading("Loading...");
+        dispatch(setLoading(true));
 
         try {
-            const response = await apiConnector("POST", SIGNUP_API,{
+            const response = await apiConnector("POST", SIGNUP_API, {
                 email,
                 password,
                 firstName,
                 lastName,
                 role,
-                youtubeChannelId,
-                otp
-            })
+                otp,
+            });
             console.log("SIGNUP API RESPONSE............", response)
 
-            if(!response.data.success){
+            if (!response.data.success) {
                 throw new Error(response.data.message)
+              }
+              toast.success("Signup Successful")
+              navigate("/login")
+            } catch (error) {
+              console.log("SIGNUP API ERROR............", error)
+              toast.error("Signup Failed")
+              navigate("/signup")
             }
-            toast.success("SIgnup  Successfully")
-            navigate("/login")
-        } catch (error) {
-            console.log("signup api error ",error);
-            toast.error("Signup failed")
-            navigate("/signup")
-            
+            dispatch(setLoading(false))
+            toast.dismiss(toastId)
+          }
         }
-        dispatch(setLoading(false))
-        toast.dismiss(toastId)
-    }
-}
 
 export function login(email,password,navigate){
     return async (dispatch)=>{
@@ -96,9 +92,12 @@ export function login(email,password,navigate){
                 throw new Error(response.data.message)
             }
             toast.success("Login Successfull")
-            dispatch(setToken(response.data.tokens))
-            dispatch(setUser({...response.data.user}))
-            localStorage.setItem("token",JSON.stringify(response.data.tokens))
+            dispatch(setToken(response.data.token))
+            const userImage = response.data?.user?.image
+            ? response.data.user.image
+            : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
+            dispatch(setUser({ ...response.data.user, image: userImage }))
+            localStorage.setItem("token",JSON.stringify(response.data.token))
             localStorage.setItem("user", JSON.stringify(response.data.user))
             navigate("/workspace/mp")
             

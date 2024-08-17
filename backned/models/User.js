@@ -30,13 +30,6 @@ const UserSchema = new mongoose.Schema({
         enum: ['YouTuber', 'Editor'],
         required: [true, 'Role is required']
     },
-    youtubeChannelId: {
-        type: String,
-        required: function() {
-            return this.role === 'YouTuber';
-        },
-        trim: true
-    },
     token:{
         type:String,
     },

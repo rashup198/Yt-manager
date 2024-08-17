@@ -13,19 +13,17 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const { signupData, loading } = useSelector((state) => state.auth);
 
-  
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    const { accountType, email, password, firstName, lastName } = signupData;
-    dispatch(signUp(accountType, email, password, firstName, lastName, otp, navigate));
+    const { email, password, firstName, lastName, role } = signupData;
+    dispatch(signUp(email, password, firstName, lastName, role, otp, navigate));
   };
 
   useEffect(() => {
     if (!signupData) {
       navigate('/signup');
     }
-  });
+  }, [signupData, navigate]);
 
   return (
     <div className=" min-h-screen flex items-center justify-center">
@@ -39,11 +37,11 @@ const VerifyEmail = () => {
           <p className="text-gray-600 mb-4">Enter the verification code we just sent to your email address</p>
           <form onSubmit={handleOnSubmit} className="space-y-4">
             <OtpInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            renderSeparator={<span>-</span>}
-            renderInput={(props) => <input {...props} className='border border-black' />}
+              value={otp}
+              onChange={setOtp}
+              numInputs={5}
+              renderSeparator={<span>-</span>}
+              renderInput={(props) => <input {...props} className='border border-black' />}
             />
 
             <button
