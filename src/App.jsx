@@ -5,13 +5,17 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import VerifyEmail from "./pages/VerifyEmail"
 import { useSelector } from "react-redux";
 import OpenRoute from "./componets/core/auth/OpenRoute";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+// import Signup from "./pages/Signup";
+// import Login from "./pages/Login";
 import PrivateRoute from "./componets/core/auth/PrivateRoute";
 
 
 import Hero from './Hero';
 import Navbar from './componets/common/Navbar';
+import SignupForm from './componets/core/auth/SignUpform';
+import LoginForm from './componets/core/auth/LoginForm';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdatePassword from './pages/UpdatePassword';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -22,7 +26,7 @@ function App() {
         <Route path='/' element ={<Hero></Hero>}></Route>
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/signup" element={
-          <Signup></Signup>
+          <SignupForm></SignupForm>
         }
         ></Route>
 
@@ -30,11 +34,14 @@ function App() {
           path="login"
           element={
             <OpenRoute>
-              <Login />
+              < LoginForm/>
               
             </OpenRoute>
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>}></Route>
+
+        <Route path="/update-password/:id" element={<UpdatePassword/>}></Route>
         <Route path="/verify-email" element={<VerifyEmail></VerifyEmail>}></Route>
 
       </Routes>

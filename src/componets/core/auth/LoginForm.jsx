@@ -2,11 +2,10 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
 import { login } from "../../../services/operations/authAPI";
+import img from "../../../assets/Images/login.jpg";
 
-
-function LoginForm() {
+function LoginForm({ title, description1, description2, image, formType }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -26,71 +25,79 @@ function LoginForm() {
   };
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
-    dispatch(login(email, password, navigate))
-  }
+    e.preventDefault();
+    dispatch(login(email, password, navigate));
+  };
 
   return (
-    <form
-      onSubmit={handleOnSubmit}
-      className="mt-6 flex w-full flex-col gap-y-4"
-    >
-      <label className="w-full">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-          Email Address <sup className="text-pink-200">*</sup>
+    <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen px-4 md:px-8 lg:px-16 bg-gray-900 lg:gap-5">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left mb-6 lg:mb-0 text-white">
+        <h1 className="text-2xl lg:text-4xl font-bold mb-4 text-yellow-300">
+          Welcome Back, Creator
+        </h1>
+        <p className="mb-4 text-sm lg:text-base ">
+        Manage your content, collaborate with editors, and stay connected with your audience.
         </p>
-        <input
-          required
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleOnChange}
-          placeholder="Enter email address"
-          style={{
-            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-          }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
-        />
-      </label>
-      <label className="relative">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-          Password <sup className="text-pink-200">*</sup>
+        <p className="mb-4 text-sm lg:text-base">
+        Your next big video is just a few clicks away. Sign in to streamline your workflow and maximize your reach.
         </p>
-        <input
-          required
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          onChange={handleOnChange}
-          placeholder="Enter Password"
-          style={{
-            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-          }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-12 text-richblack-5"
+        <img
+          src={img}
+          alt="login up"
+          className=" w-full lg:w-full rounded-lg shadow-lg hidden lg:block"
         />
-        <span
-          onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-        >
-          {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-          ) : (
-            <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-          )}
-        </span>
-        <Link to="/forgot-password">
-          <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
-            Forgot Password
-          </p>
-        </Link>
-      </label>
-      <button
-        type="submit"
-        className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
-      >
-        Log In
-      </button>
-    </form>
+      </div>
+      <div className="w-full md:w-1/2 p-8 bg-richblack-800 rounded-lg shadow-lg">
+        
+        <form onSubmit={handleOnSubmit} className="flex flex-col gap-y-6">
+          <label className="w-full">
+            <p className="mb-2 text-sm font-medium text-yellow-50">Email Address <sup className="text-pink-200">*</sup></p>
+            <input
+              required
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleOnChange}
+              placeholder="Enter email address"
+              className="w-full rounded-lg bg-richblack-700 px-4 py-3 text-white placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-50 focus:outline-none"
+            />
+          </label>
+          <label className="relative">
+            <p className="mb-2 text-sm font-medium text-yellow-50">Password <sup className="text-pink-200">*</sup></p>
+            <input
+              required
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={password}
+              onChange={handleOnChange}
+              placeholder="Enter Password"
+              className="w-full rounded-lg bg-richblack-700 px-4 py-3 text-white placeholder-gray-400 shadow-sm pr-12 focus:ring-2 focus:ring-yellow-50 focus:outline-none"
+            />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-[38px] z-10 cursor-pointer"
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+              ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+              )}
+            </span>
+            <Link to="/forgot-password">
+              <p className="mt-2 text-xs text-yellow-50 text-right hover:underline">
+                Forgot Password?
+              </p>
+            </Link>
+          </label>
+          <button
+            type="submit"
+            className="mt-4 rounded-lg bg-yellow-50 py-3 text-lg font-semibold text-richblack-900 hover:bg-yellow-100 focus:ring-2 focus:ring-yellow-50 focus:outline-none"
+          >
+            Log In
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 
