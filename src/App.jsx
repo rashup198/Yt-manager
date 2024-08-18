@@ -18,6 +18,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import VideoUpload from './componets/core/dashboard/AddVideo/VideoUpload';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -47,6 +48,8 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail></VerifyEmail>}></Route>
         <Route path="/about" element={<AboutUs></AboutUs>}></Route>
         <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
+
+        <Route path="dashboard/add-video" element={<VideoUpload></VideoUpload>}></Route>
 
       </Routes>
     </div>

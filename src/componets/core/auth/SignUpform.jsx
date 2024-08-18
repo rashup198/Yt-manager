@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { sendOTP } from "../../../services/operations/authAPI";
 import { setSignupData } from "../../../slices/authSlice";
 import signupImg from "../../../assets/Images/singnup.jpg";
+import Tab from "../../common/Tab";
+
 function SignupForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,13 +41,27 @@ function SignupForm() {
     setAccountType("YouTuber");
   };
 
+  const tabData = [
+    {
+      id: 1,
+      tabName: "YouTuber",
+      type: "YouTuber",
+    },
+    {
+      id: 2,
+      tabName: "Editor",
+      type: "Editor",
+    },
+  ];
+
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-between p-6 lg:p-12 bg-gray-900 text-gray-300 text-yellow-300 lg:gap-5 lg:justify-center ">
+    <div className="flex flex-col lg:flex-row items-center justify-between p-6 lg:p-12 bg-gray-900 text-gray-300 text-yellow-300 lg:gap-5 lg:justify-center">
+      
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left mb-6 lg:mb-0 text-white">
         <h1 className="text-2xl lg:text-4xl font-bold mb-4 text-yellow-300">
           Join the Creator Community!
         </h1>
-        <p className="mb-4 text-sm lg:text-base ">
+        <p className="mb-4 text-sm lg:text-base">
           Sign up today to manage your videos, collaborate with editors, and
           grow your channel.
         </p>
@@ -56,15 +72,13 @@ function SignupForm() {
         <img
           src={signupImg}
           alt="Sign up"
-          className=" w-full lg:w-full rounded-lg shadow-lg hidden lg:block"
+          className="w-full lg:w-full rounded-lg shadow-lg hidden lg:block"
         />
       </div>
 
       <div className="w-full md:w-1/2 p-8 bg-richblack-800 rounded-lg shadow-lg">
-        <form
-          onSubmit={handleOnSubmit}
-          className="flex w-full flex-col gap-y-4"
-        >
+      <Tab tabData={tabData} field={accountType} setField={setAccountType} />
+        <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
           <div className="flex gap-x-4">
             <label className="w-1/2">
               <p className="mb-1 text-sm leading-5 lg:leading-6">First Name</p>
@@ -75,7 +89,7 @@ function SignupForm() {
                 value={firstName}
                 onChange={handleOnChange}
                 placeholder="Enter first name"
-                className="w-full rounded-md bg-gray-700 p-3 text-gray-300"
+                className="w-full rounded-md bg-gray-700 p-3 text-gray-300 text-black"
               />
             </label>
             <label className="w-1/2">
@@ -87,7 +101,7 @@ function SignupForm() {
                 value={lastName}
                 onChange={handleOnChange}
                 placeholder="Enter last name"
-                className="w-full rounded-md bg-gray-700 p-3 text-gray-300"
+                className="w-full rounded-md bg-gray-700 p-3 text-gray-300 text-black"
               />
             </label>
           </div>
@@ -102,7 +116,7 @@ function SignupForm() {
               value={email}
               onChange={handleOnChange}
               placeholder="Enter email address"
-              className="w-full rounded-md bg-gray-700 p-3 text-gray-300"
+              className="w-full rounded-md bg-gray-700 p-3 text-gray-300 text-black"
             />
           </label>
           <label className="relative">
@@ -114,7 +128,7 @@ function SignupForm() {
               value={password}
               onChange={handleOnChange}
               placeholder="Enter Password"
-              className="w-full rounded-md bg-gray-700 p-3 text-gray-300"
+              className="w-full rounded-md bg-gray-700 p-3 text-gray-300 text-black"
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}

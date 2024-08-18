@@ -62,45 +62,54 @@ const VideoUpload = ({ workspaceId }) => {
   };
 
   if (!isEditor) {
-    return <p>You do not have permission to upload videos.</p>;
+    return <p className="text-center text-red-500 mt-4">You do not have permission to upload videos.</p>;
   }
 
   return (
-    <div className="video-upload">
-      <h2>Upload a Video</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="videoFile">Choose a video:</label>
-          <input
-            type="file"
-            id="videoFile"
-            accept="video/*"
-            onChange={handleFileChange}
-            required
-          />
-        </div>
-        <button type="submit" disabled={uploading}>
-          {uploading ? 'Uploading...' : 'Upload Video'}
-        </button>
-      </form>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-richblack-900 text-yellow-50">
+      <div className="w-full max-w-lg p-8 bg-richblack-800 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-semibold text-yellow-300 mb-6 text-center">Upload a Video</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="form-group">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-300">Title:</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full text-black mt-1 p-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description:</label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full text-black mt-1 p-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="videoFile" className="block text-sm font-medium text-gray-300">Choose a video:</label>
+            <input
+              type="file"
+              id="videoFile"
+              accept="video/*"
+              onChange={handleFileChange}
+              required
+              className="w-full mt-1 p-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={uploading}
+            className="w-full py-3 bg-yellow-500 rounded-md text-gray-900 font-semibold hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
+          >
+            {uploading ? 'Uploading...' : 'Upload Video'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -32,9 +32,9 @@ const VerifyEmail = () => {
           <h1>Loading......</h1>
         </div>
       ) : (
-        <div className="bg-white p-8 rounded shadow-md w-96">
-          <h1 className="text-2xl font-bold mb-4">Verify Email</h1>
-          <p className="text-gray-600 mb-4">Enter the verification code we just sent to your email address</p>
+        <div className="bg-richblack-800 p-10 rounded-lg shadow-lg w-full max-w-md text-yellow-50">
+          <h1 className="text-3xl font-semibold text-yellow-400 mb-6 text-center">Verify Email</h1>
+          <p className="text-gray-300 mb-8 text-center">Enter the verification code we just sent to your email address</p>
           <form onSubmit={handleOnSubmit} className="space-y-4">
             <OtpInput
               value={otp}
@@ -42,17 +42,26 @@ const VerifyEmail = () => {
               numInputs={5}
               renderSeparator={<span>-</span>}
               renderInput={(props) => <input {...props} className='border border-black' />}
+              inputStyle={{
+                width: '3rem',
+                height: '3rem',
+                borderRadius: '0.5rem',
+                border: '2px solid #ffc107',
+                backgroundColor: '#1f2937',
+                color: 'white',
+                fontSize: '1.5rem',
+                textAlign: 'center',
+              }}
             />
 
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-            >
+              className="w-full py-3 bg-yellow-400 text-gray-900 rounded-lg font-semibold text-lg hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 text-black"            >
               Verify
             </button>
           </form>
-          <div className="mt-6 flex items-center justify-between">
-            <Link to="/login" className="text-blue-500">
+          <div className="mt-8 flex items-center justify-between">
+            <Link to="/login" className="text-yellow-400 hover:underline">
               <p className="flex items-center gap-x-2">
                 <BiArrowBack /> Back To Login
               </p>
@@ -60,7 +69,7 @@ const VerifyEmail = () => {
           </div>
           <button
             onClick={() => dispatch(sendOTP(signupData.email,navigate))}
-            className="text-blue-500 hover:underline focus:outline-none"
+            className="mt-4 text-yellow-400 hover:underline focus:outline-none"
           >
             Resend it
           </button>
