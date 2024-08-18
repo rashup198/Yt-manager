@@ -25,7 +25,7 @@ const Navbar = () => {
     <div className="h-14 border-b-[1px] border-b-richblack-500 bg-richblack-900">
       <div className="mx-auto flex w-11/12 max-w-maxContent items-center text-white justify-between mt-2">
         <Link to="/" className="text-2xl font-bold text-white">
-          Yt-Manager
+          StreamLine
         </Link>
 
         {/* Hamburger Icon */}

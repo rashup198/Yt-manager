@@ -129,7 +129,7 @@ function SignupForm() {
           </label>
           <button
             type="submit"
-            className="mt-6 rounded-md bg-yellow-300 py-2 px-4 font-medium text-gray-900 hover:bg-yellow-400"
+            className="mt-6 rounded-md bg-yellow-300 py-2 px-4 text-gray-900 hover:bg-yellow-400 text-black font-bold"
           >
             Create Account
           </button>

@@ -16,6 +16,8 @@ import SignupForm from './componets/core/auth/SignUpform';
 import LoginForm from './componets/core/auth/LoginForm';
 import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -43,6 +45,8 @@ function App() {
 
         <Route path="/update-password/:id" element={<UpdatePassword/>}></Route>
         <Route path="/verify-email" element={<VerifyEmail></VerifyEmail>}></Route>
+        <Route path="/about" element={<AboutUs></AboutUs>}></Route>
+        <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
 
       </Routes>
     </div>
