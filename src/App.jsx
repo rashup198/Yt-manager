@@ -19,6 +19,8 @@ import UpdatePassword from './pages/UpdatePassword';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import VideoUpload from './componets/core/dashboard/AddVideo/VideoUpload';
+import Dashboard from './pages/Dashboard';
+import MyProfile from './componets/core/dashboard/MyProfile';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -49,7 +51,12 @@ function App() {
         <Route path="/about" element={<AboutUs></AboutUs>}></Route>
         <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
 
+        <Route element={<PrivateRoute><Dashboard></Dashboard></PrivateRoute>}>
+        <Route path='/dashboard/my-profile' element={<MyProfile></MyProfile>}></Route>
         <Route path="dashboard/add-video" element={<VideoUpload></VideoUpload>}></Route>
+        </Route>
+
+        
 
       </Routes>
     </div>
