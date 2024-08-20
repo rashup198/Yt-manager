@@ -14,7 +14,7 @@ const {
 } = require('../controller/WorkspaceController');
 
 router.post('/workspaces', auth, isYouTuber, createWorkspace);
-router.get('/workspaces', auth, isYouTuber, getAllWorkspaces);
+router.get('/workspaces', auth, getAllWorkspaces);
 router.get('/workspaces/:id', auth, getWorkspaceById);  
 router.put('/workspaces/:id', auth, isYouTuber, updateWorkspace);
 router.delete('/workspaces/:id', auth, isYouTuber, deleteWorkspace);

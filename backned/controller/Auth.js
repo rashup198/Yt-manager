@@ -205,51 +205,78 @@ exports.login = async (req, res) => {
 
 
 
-exports.changePassword = async (req, res) => {
-    try {
-        const { email, currentPassword, newPassword } = req.body;
+// exports.changePassword = async (req, res) => {
+//     try {
+//         // Get user data from req.user
+//         const id= req.user.id;
+//         const user = await User.findById({ _id: id });
+//         if (!user) {
+//             return res.status(404).json({
+//               success: false,
+//               message: "User not found",
+//             });
+//           }
 
-        if (!email || !currentPassword || !newPassword) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide email, current password, and new password.',
-            });
-        }
+//         // Get old password, new password, and confirm new password from req.body
+//         const { oldPassword, newPassword } = req.body;
 
-        const user = await User.findOne({ email }).select('+password');
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'User not found.',
-            });
-        }
+//         // Validate old password
+//         const isPasswordMatch = await bcrypt.compare(
+//             oldPassword,
+//             userDetails.password
+//         );
+//         if (!isPasswordMatch) {
+//             // If old password does not match, return a 401 (Unauthorized) error
+//             return res
+//                 .status(401)
+//                 .json({ success: false, message: "The password is incorrect" });
+//         }
 
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
-        if (!isMatch) {
-            return res.status(401).json({
-                success: false,
-                message: 'Current password is incorrect.',
-            });
-        }
+//         // Match new password and confirm new password
+        
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+//         // Update password
+//         const encryptedPassword = await bcrypt.hash(newPassword, 10);
+//         const updatedUserDetails = await User.findByIdAndUpdate(
+//             req.user.id,
+//             { password: encryptedPassword },
+//             { new: true }
+//         );
 
-        user.password = hashedNewPassword;
-        await user.save();
+//         // Send notification email
+//         try {
+//             const emailResponse = await mailSender(
+//                 updatedUserDetails.email,
+//                 passwordUpdated(
+//                     updatedUserDetails.email,
+//                     `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
+//                 )
+//             );
+//             console.log("Email sent successfully:", emailResponse.response);
+//         } catch (error) {
+//             // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
+//             console.error("Error occurred while sending email:", error);
+//             return res.status(500).json({
+//                 success: false,
+//                 message: "Error occurred while sending email",
+//                 error: error.message,
+//             });
+//         }
 
-        res.status(200).json({
-            success: true,
-            message: 'Password changed successfully.',
-        });
-    } catch (error) {
-        console.error('Change password error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'An error occurred while changing the password. Please try again.',
-        });
-    }
-};
+//         // Return success response
+//         return res
+//             .status(200)
+//             .json({ success: true, message: "Password updated successfully" });
+//     } catch (error) {
+//         // If there's an error updating the password, log the error and return a 500 (Internal Server Error) error
+//         console.error("Error occurred while updating password:", error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Error occurred while updating password",
+//             error: error.message,
+//         });
+//     }
+// };
 
 exports.sendVerificationEmail = async (req, res) => {
     try {

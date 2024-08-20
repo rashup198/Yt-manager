@@ -62,7 +62,7 @@ const VideoUpload = ({ workspaceId }) => {
   };
 
   if (!isEditor) {
-    return <p className="text-center text-red-500 mt-4">You do not have permission to upload videos.</p>;
+    return <p className="text-center text-red-500 mt-4">You do not have permission to upload videos. Only editors can upload Videos</p>;
   }
 
   return (

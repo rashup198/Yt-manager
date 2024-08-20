@@ -22,14 +22,14 @@ export const sidebarLinks = [
   {
     id: 4,
     name: "My WorkSpaces",
-    path: "/dashboard/my-workspces",
+    path: "/dashboard/workspace/workspaces",
     type: "YouTuber",
     icon: "VscVm",
   },
   {
     id: 5,
     name: "Create WorkSpace",
-    path: "/dashboard/add-workspace",
+    path: "/dashboard/workspace/create",
     type: "YouTuber",
     icon: "VscAdd",
   },

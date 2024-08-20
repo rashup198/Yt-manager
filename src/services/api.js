@@ -4,7 +4,7 @@ export const endpoints = {
     LOGIN_API: "http://localhost:5000/api/auth/login",
     RESETPASSTOKEN_API: "http://localhost:5000/api/auth/resetPasswordToken",
     RESETPASSWORD_API:"http://localhost:5000/api/auth/resetPassword",
-    CHANGE_PASSWORD:"http://localhost:5000/api/auth/changePass"
+    // CHANGE_PASSWORD:"http://localhost:5000/api/auth/changePass"
   };
 
 
@@ -28,9 +28,8 @@ export const endpoints = {
   }
 
   export const profileEndpoint={
-    DELETE_ACCOUNT:"",
-    UPDATE_PROFILE_PHOTO:"",
-    UPDATE_PROFILE_DETAILS:"",
-    REMOVE_PROFILE_PHOTO:""
-
+    UPDATE_PROFILE_API:"http://localhost:5000/api/profile/updateProfile",
+    DELETE_PROFILE_API:"http://localhost:5000/api/profile/deleteProfile",
+    GET_WORKSPACE:"http://localhost:5000/api/profile/getworkspace",
+    CHANGE_PASSWORD:"http://localhost:5000/api/profile/changePassword"
   }

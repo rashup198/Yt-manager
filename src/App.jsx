@@ -21,6 +21,9 @@ import ContactUs from './pages/ContactUs';
 import VideoUpload from './componets/core/dashboard/AddVideo/VideoUpload';
 import Dashboard from './pages/Dashboard';
 import MyProfile from './componets/core/dashboard/MyProfile';
+import Settings from './componets/core/dashboard/Settings';
+import CreateWorkspace from './componets/core/dashboard/Workspace/CreateWorkspace';
+import WorkspaceList from './componets/core/dashboard/Workspace/WorkspaceList';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -53,7 +56,11 @@ function App() {
 
         <Route element={<PrivateRoute><Dashboard></Dashboard></PrivateRoute>}>
         <Route path='/dashboard/my-profile' element={<MyProfile></MyProfile>}></Route>
+        <Route path="/dashboard/settings" element={<Settings></Settings>}></Route>
         <Route path="dashboard/add-video" element={<VideoUpload></VideoUpload>}></Route>
+
+        <Route path="/dashboard/workspace/create" element={<CreateWorkspace></CreateWorkspace>}></Route>
+        <Route path='/dashboard/workspace/workspaces' element={<WorkspaceList></WorkspaceList>}></Route>
         </Route>
 
         

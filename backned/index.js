@@ -9,6 +9,7 @@ const cors = require('cors');
 const authRoutes = require("./routes/authRoutes")
 const workspace = require("./routes/workspaceRoutes")
 const videoRoutes  = require("./routes/videoRoutes")
+const profile = require("./routes/profile")
 require('dotenv').config();
 app.use(express.json()); // For parsing application/json
 const database = require("./config/database")
@@ -27,7 +28,7 @@ app.use(cors({
 app.use('/api/auth', authRoutes);
 app.use('/api/workspace',workspace);
 app.use('/api/videos', videoRoutes);
-
+app.use('/api/profile', profile);
 app.get("/", (req, res) => {
     res.send("Welcome to the server");
 });

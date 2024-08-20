@@ -24,26 +24,14 @@ export default function MyProfile() {
             <p className="text-sm text-richblack-300">{user?.email}</p>
           </div>
         </div>
-        <button
-          onClick={() => navigate("/dashboard/settings")}
-          className="mt-4 lg:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
-        >
-          <RiEditBoxLine />
-          Edit
-        </button>
+        
       </div>
 
       <div className="mt-10 space-y-8">
         <div className="bg-richblack-800 rounded-lg shadow-lg p-6 lg:p-12">
           <div className="flex items-center justify-between mb-4">
             <p className="text-xl font-semibold text-richblack-5">About</p>
-            <button
-              onClick={() => navigate("/dashboard/settings")}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
-            >
-              <RiEditBoxLine />
-              Edit
-            </button>
+            
           </div>
           <p className={`text-sm ${user?.additionalDetails?.about ? "text-richblack-5" : "text-richblack-400"}`}>
             {user?.additionalDetails?.about ?? "Write Something About Yourself"}
@@ -53,13 +41,7 @@ export default function MyProfile() {
         <div className="bg-richblack-800 rounded-lg shadow-lg p-6 lg:p-12">
           <div className="flex items-center justify-between mb-4">
             <p className="text-xl font-semibold text-richblack-5">Personal Details</p>
-            <button
-              onClick={() => navigate("/dashboard/settings")}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
-            >
-              <RiEditBoxLine />
-              Edit
-            </button>
+           
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
