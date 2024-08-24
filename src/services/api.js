@@ -11,10 +11,11 @@ export const endpoints = {
   export const workSpaceEndPoints= {
     CREATE_WORKSPACE:"http://localhost:5000/api/workspace/workspaces",
     GET_ALL_WORKSPACE:"http://localhost:5000/api/workspace/workspaces",
-    GET_WORKSPACE_BY_ID:"http://localhost:5000/api/workspace/workspaces/:id",
-    UPDATE_WORKSPACE_DETAILS:"http://localhost:5000/api/workspace/workspaces/:id",
-    DELETE_WORKSPACE:"http://localhost:5000/api/workspace/workspaces/:id", // delete request
+    GET_WORKSPACE_BY_ID:"http://localhost:5000/api/workspace/workspaces",
+    UPDATE_WORKSPACE_DETAILS:"http://localhost:5000/api/workspace/workspaces",
+    DELETE_WORKSPACE:"http://localhost:5000/api/workspace/workspaces", // delete request
     INVITE_EDITOR:"http://localhost:5000/api/workspace/workspaces/:id/invite",
+    TOKEN_STORAGE_URL:"http://localhost:5000/api/workspace/storeYouTubeAccessToken"
     
   };
 

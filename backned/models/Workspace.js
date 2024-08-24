@@ -14,13 +14,19 @@ const WorkspaceSchema = new mongoose.Schema({
         required: true
     },
     editors: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-  }],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     videos: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Video'
-    }]
+    }],
+    youtubeAccessToken: {
+        type: String,
+    },
+    youtubeRefreshToken: {
+        type: String,
+    }
 }, {
     timestamps: true
 });

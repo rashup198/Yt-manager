@@ -141,6 +141,28 @@ exports.deleteWorkspace = async (req, res) => {
     }
 };
 
+exports.storeYouTubeAccessToken = async (req, res) => {
+    try {
+        const { workspaceId, accessToken, refreshToken } = req.body;
+
+        const workspace = await Workspace.findById(workspaceId);
+        if (!workspace) {
+            return res.status(404).json({ success: false, message: 'Workspace not found' });
+        }
+
+        workspace.youtubeAccessToken = accessToken;
+        workspace.youtubeRefreshToken = refreshToken;
+
+        console.log("YouTube Access Token:", workspace.youtubeAccessToken);
+        console.log("YouTube Refresh Token:", workspace.youtubeRefreshToken);
+        await workspace.save();
+
+        res.status(200).json({ success: true, message: 'YouTube access token stored successfully' });
+    } catch (error) {
+        console.error('Error storing YouTube access token:', error);
+        res.status(500).json({ success: false, message: 'Error storing YouTube access token' });
+    }
+};
 
 
 exports.inviteEditor = async (req, res) => {

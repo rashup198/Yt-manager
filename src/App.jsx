@@ -24,6 +24,8 @@ import MyProfile from './componets/core/dashboard/MyProfile';
 import Settings from './componets/core/dashboard/Settings';
 import CreateWorkspace from './componets/core/dashboard/Workspace/CreateWorkspace';
 import WorkspaceList from './componets/core/dashboard/Workspace/WorkspaceList';
+import WorkSpaceDetails from './componets/core/dashboard/Workspace/WorkSpaceDetails';
+import OAuthCallback from './componets/core/dashboard/Workspace/OAuthCallback';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -61,7 +63,8 @@ function App() {
 
         <Route path="/dashboard/workspace/create" element={<CreateWorkspace></CreateWorkspace>}></Route>
         <Route path='/dashboard/workspace/workspaces' element={<WorkspaceList></WorkspaceList>}></Route>
-        </Route>
+        <Route path="/dashboard/workspace/workspace/:id" element={<WorkSpaceDetails />} />
+        <Route path="/oauth-callback" element={<OAuthCallback />} /></Route>
 
         
 

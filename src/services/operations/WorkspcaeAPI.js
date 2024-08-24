@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { apiConnector } from '../apiConnector';
 import {workSpaceEndPoints} from '../api'
-
+import { useNavigate } from 'react-router-dom';
 
 
 // Base URL of your API
@@ -15,6 +15,7 @@ const {
     UPDATE_WORKSPACE_DETAILS,
     DELETE_WORKSPACE, // delete request
     INVITE_EDITOR,
+    TOKEN_STORAGE_URL
 }= workSpaceEndPoints
 // Create a workspace
 export const createWorkspace = async (token, workspaceData) => {
@@ -36,7 +37,7 @@ export const createWorkspace = async (token, workspaceData) => {
 };
 
 export const getAllWorkspaces = async (token) => {
-    const toastId = toast.loading("Loading..."); // Display a loading toast
+    const toastId = toast.loading("Loading...");
     let result = [];
     
     try {
@@ -62,17 +63,53 @@ export const getAllWorkspaces = async (token) => {
 };
 
 
-// Get workspace by ID
 export const getWorkspaceById = async (token, workspaceId) => {
+    const tokenId = toast.loading("Loading...");
+    let result = null;
+
     try {
-        const response = await axios.get(`${API_BASE_URL}/workspaces/${workspaceId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        const response = await apiConnector("GET", `${GET_WORKSPACE_BY_ID}/${workspaceId}`, null, {
+            Authorization: `Bearer ${token}`,
         });
-        return response.data;
+
+        console.log("Workspace Details API Response:", response);
+
+        if (!response.data.success) {
+            throw new Error(response.data.message);
+        }
+
+        result = response.data.workspace;
+        toast.success("Workspace details loaded successfully!");
     } catch (error) {
-        throw new Error(error.response ? error.response.data.message : error.message);
+        console.log("Workspace API Error:", error);
+        toast.error(error.response?.data?.message || "Failed to load workspace details");
+    } finally {
+        toast.dismiss(tokenId);
+    }
+
+    return result;
+};
+export const tokenStorage = async (token, workspaceId, access_token, refresh_token) => {
+    try {
+        const response = await axios.post(TOKEN_STORAGE_URL, {
+            workspaceId,
+            accessToken: access_token,
+            refreshToken: refresh_token
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.data.success) {
+            throw new Error(response.data.message);
+        }
+
+        return true; // Indicate success
+    } catch (error) {
+        console.log("Token Storage API Error:", error);
+        toast.error(error.response?.data?.message || "Failed to store tokens");
+        return false; // Indicate failure
     }
 };
 
@@ -96,16 +133,29 @@ export const updateWorkspace = async (token, workspaceId, updateData) => {
 };
 
 // Delete a workspace
-export const deleteWorkspace = async (token, workspaceId) => {
+export const deleteWorkspace = async (token, workspaceId, onSuccess) => {
+    const toastId = toast.loading("Deleting workspace...");
+
     try {
-        const response = await axios.delete(`${API_BASE_URL}/workspaces/${workspaceId}`, {
+        const response = await axios.delete(`${DELETE_WORKSPACE}/${workspaceId}`, {
             headers: {
-                'Authorization': `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
         });
-        return response.data;
+
+        console.log("Delete Workspace API Response:", response);
+
+        if (response.data.success) {
+            toast.success("Workspace deleted successfully");
+            if (onSuccess) onSuccess();
+        } else {
+            throw new Error("Failed to delete workspace");
+        }
     } catch (error) {
-        throw new Error(error.response ? error.response.data.message : error.message);
+        console.error("Delete Workspace API Error:", error);
+        toast.error(error.response?.data?.message || "An error occurred");
+    } finally {
+        toast.dismiss(toastId);
     }
 };
 
@@ -141,3 +191,5 @@ export const confirmInvite = async (token, inviteToken) => {
         throw new Error(error.response ? error.response.data.message : error.message);
     }
 };
+
+
