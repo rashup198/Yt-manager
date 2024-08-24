@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getWorkspaceById, deleteWorkspace } from '../../../../services/operations/WorkspcaeAPI';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { getWorkspaceById, deleteWorkspace, inviteEditor } from '../../../../services/operations/WorkspcaeAPI';
+import { AiOutlineEdit, AiOutlineDelete, AiOutlineClose } from 'react-icons/ai';
 import toast from 'react-hot-toast';
-import ConfirmationModal from '../../../../componets/common/ConfirmationModal';
 
 const WorkSpaceDetails = () => {
   const { id: workspaceId } = useParams();
   const { token } = useSelector((state) => state.auth);
   const [workspace, setWorkspace] = useState(null);
-  const [confirmationModal, setConfirmationModal] = useState(null); 
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showInviteForm, setShowInviteForm] = useState(false);
   const navigate = useNavigate();  
 
   useEffect(() => {
@@ -28,28 +29,18 @@ const WorkSpaceDetails = () => {
     fetchWorkspaceDetails();
   }, [token, workspaceId, navigate]);
 
-  const handleDelete = (workspaceId) => {
-    setConfirmationModal({
-      text1: 'Confirm Deletion',
-      text2: 'Are you sure you want to delete this workspace? This action cannot be undone.',
-      btn1Text: 'Delete',
-      btn2Text: 'Cancel',
-      btn1Handler: async () => {
-        try {
-          const deleteResponse = await deleteWorkspace(token, workspaceId);
-          if (deleteResponse.success) {
-            toast.success("Workspace deleted successfully");
-            navigate('/dashboard/workspace/workspaces');  
-          } else {
-            toast.error("Failed to delete workspace");
-          }
-        } catch (error) {
-          toast.error('An error occurred during deletion');
-        }
-        setConfirmationModal(null);
-      },
-      btn2Handler: () => setConfirmationModal(null),
-    });
+  const handleDelete = async () => {
+    try {
+      const deleteResponse = await deleteWorkspace(token, workspaceId);
+      if (deleteResponse.success) {
+        toast.success("Workspace deleted successfully");
+        navigate('/dashboard/workspace/workspaces');
+      } else {
+        toast.error("Failed to delete workspace");
+      }
+    } catch (error) {
+      toast.error('An error occurred during deletion');
+    }
   };
 
   const handleLinkYouTubeChannel = () => {
@@ -59,6 +50,25 @@ const WorkSpaceDetails = () => {
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/youtube.upload&access_type=offline&prompt=consent&state=${workspaceId}`;
 
     window.location.href = authUrl;
+  };
+
+  const handleInviteEditor = async () => {
+    setIsLoading(true);
+    try {
+      const inviteResponse = await inviteEditor(token, workspaceId, email);
+      console.log("this is invite res",inviteResponse);
+      
+      if (inviteResponse.success) {
+        toast.success('Invitation sent successfully');
+        setEmail('');
+        setShowInviteForm(false); 
+      } else {
+        toast.error('Failed to send invitation');
+      }
+    } catch (error) {
+      toast.error('An error occurred while sending the invitation');
+    }
+    setIsLoading(false);
   };
 
   if (!workspace) {
@@ -87,16 +97,48 @@ const WorkSpaceDetails = () => {
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-richblack-400">Members</h2>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
+        <button 
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
+          onClick={() => setShowInviteForm(!showInviteForm)} 
+        >
           Invite Members
         </button>
       </div>
 
+      {/* Invite Editor Form */}
+      {showInviteForm && (
+        <div className="mb-6 p-4 bg-blue-500 rounded-lg shadow-md transition-transform transform scale-100">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Invite an Editor</h3>
+            <button 
+              className="text-gray-500 hover:text-gray-700"
+              onClick={() => setShowInviteForm(false)}
+            >
+              <AiOutlineClose size={20} />
+            </button>
+          </div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter editor's email"
+            className="border rounded-lg p-2 w-full mb-4 text-black"
+          />
+          <button 
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
+            onClick={handleInviteEditor}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Sending...' : 'Send Invitation'}
+          </button>
+        </div>
+      )}
+
       {members.length > 0 ? (
         <ul className="grid gap-4">
           {members.map((member) => (
-            <li key={member._id} className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
-              <span className="text-lg text-richblack-800">{member.name}</span>
+            <li key={member._id} className="flex justify-between items-center bg-blue-400 p-4 rounded-lg shadow-md">
+              <span className="text-lg text-white">{member.firstName} {member.lastName}</span>
               <span className="text-sm text-gray-500">{member.role}</span>
             </li>
           ))}
@@ -112,26 +154,24 @@ const WorkSpaceDetails = () => {
         </button>
         <button
           className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-transform transform hover:scale-105"
-          onClick={() => handleDelete(workspace._id)}
+          onClick={handleDelete}
         >
           <AiOutlineDelete size={20} />
           Delete Workspace
         </button>
 
-        {/* added the condit */}
+        {/* added the condition */}
         {
           isYouTubeLinked ? <div className=""></div> : <button
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
           onClick={handleLinkYouTubeChannel}
           disabled={isYouTubeLinked}
         >
-          
+          Link Your YouTube Channel
         </button>
         }
         
       </div>
-
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </div>
   );
 };

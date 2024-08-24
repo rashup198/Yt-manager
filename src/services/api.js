@@ -15,7 +15,8 @@ export const endpoints = {
     UPDATE_WORKSPACE_DETAILS:"http://localhost:5000/api/workspace/workspaces",
     DELETE_WORKSPACE:"http://localhost:5000/api/workspace/workspaces", // delete request
     INVITE_EDITOR:"http://localhost:5000/api/workspace/workspaces/:id/invite",
-    TOKEN_STORAGE_URL:"http://localhost:5000/api/workspace/storeYouTubeAccessToken"
+    TOKEN_STORAGE_URL:"http://localhost:5000/api/workspace/storeYouTubeAccessToken",
+    GET_ALL_WORKSPACE_FOR_EDITOR:"http://localhost:5000/api/workspace/getAllWorkspacesForEditor"
     
   };
 

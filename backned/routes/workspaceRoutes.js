@@ -11,7 +11,7 @@ const {
     deleteWorkspace,
     inviteEditor,
     confirmInvite,
-    storeYouTubeAccessToken
+    storeYouTubeAccessToken,getAllWorkspacesForEditor
 } = require('../controller/WorkspaceController');
 
 router.post('/workspaces', auth, isYouTuber, createWorkspace);
@@ -21,6 +21,7 @@ router.put('/workspaces/:id', auth, isYouTuber, updateWorkspace);
 router.delete('/workspaces/:id', auth, isYouTuber, deleteWorkspace);
 router.post('/workspaces/:id/invite', auth, isYouTuber, inviteEditor);
 router.get('/confirm-invite', auth, confirmInvite)
+router.get("/getAllWorkspacesForEditor", auth, getAllWorkspacesForEditor)
 router.post('/storeYouTubeAccessToken', auth, storeYouTubeAccessToken)
 
 module.exports = router;

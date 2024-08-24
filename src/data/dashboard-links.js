@@ -5,30 +5,22 @@ export const sidebarLinks = [
     path: "/dashboard/my-profile",
     icon: "VscAccount",
   },
-
   {
     id: 2,
-    name: "Dashboard",
-    path: "/dashboard/editor",
-    type: "Editor",
-    icon: "VscDashboard",
-  },
-  {
-    id: 3,
     name: "My WorkSpaces",
     path: "/dashboard/workspace/workspaces",
     type: "YouTuber",
     icon: "VscVm",
   },
   {
-    id: 4,
+    id: 3,
     name: "Create WorkSpace",
     path: "/dashboard/workspace/create",
     type: "YouTuber",
     icon: "VscAdd",
   },
   {
-    id: 5,
+    id: 4,
     name: "Enrolled WorkSpace",
     path: "/dashboard/enrolled-space",
     type: "Editor",

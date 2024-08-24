@@ -11,6 +11,7 @@ const API_BASE_URL = 'http://localhost:5000/api';
 const {
     CREATE_WORKSPACE,
     GET_ALL_WORKSPACE,
+    GET_ALL_WORKSPACE_FOR_EDITOR,
     GET_WORKSPACE_BY_ID,
     UPDATE_WORKSPACE_DETAILS,
     DELETE_WORKSPACE, // delete request
@@ -38,8 +39,7 @@ export const createWorkspace = async (token, workspaceData) => {
 
 export const getAllWorkspaces = async (token) => {
     const toastId = toast.loading("Loading...");
-    let result = [];
-    
+    let result = [];  
     try {
         const response = await apiConnector("GET", GET_ALL_WORKSPACE, null, {
             Authorization: `Bearer ${token}`, 
@@ -56,12 +56,38 @@ export const getAllWorkspaces = async (token) => {
         console.log("Get all workspaces API ERROR:", error);
         toast.error(error.message || "Failed to load workspaces"); 
     } finally {
-        toast.dismiss(toastId); // Dismiss the loading toast
+        toast.dismiss(toastId); 
     }
     
     return result;
 };
 
+
+export const getAllWorkspacesForEditor = async (token) => {
+    const toastId = toast.loading("Loading...");
+    let result = [];
+
+    try {
+        const response = await apiConnector("GET", GET_ALL_WORKSPACE_FOR_EDITOR, null, {
+            Authorization: `Bearer ${token}`,
+        });
+
+        if (!response?.data?.success) {
+            throw new Error("There was an error. Try again.");
+        }
+
+        result = response?.data?.workspaces;
+        console.log("This is workspace data:", result);
+
+    } catch (error) {
+        console.error("There was an error getting all workspaces for editors:", error);
+        toast.error(error.message || "Failed to load workspaces.");
+    } finally {
+        toast.dismiss(toastId);
+    }
+
+    return result;
+};
 
 export const getWorkspaceById = async (token, workspaceId) => {
     const tokenId = toast.loading("Loading...");
@@ -159,11 +185,13 @@ export const deleteWorkspace = async (token, workspaceId, onSuccess) => {
     }
 };
 
-// Invite an editor
+
+const invite ="http://localhost:5000/api/workspace/workspaces/"
+
 export const inviteEditor = async (token, workspaceId, email) => {
     try {
         const response = await axios.post(
-            `${API_BASE_URL}/workspaces/${workspaceId}/invite`,
+            `${invite}${workspaceId}/invite`,
             { email },
             {
                 headers: {
@@ -172,11 +200,15 @@ export const inviteEditor = async (token, workspaceId, email) => {
                 }
             }
         );
+        console.log("Invitation response:", response.data);
+        
         return response.data;
     } catch (error) {
+        console.error("Error inviting editor:", error);
         throw new Error(error.response ? error.response.data.message : error.message);
     }
 };
+
 
 // Confirm an invite
 export const confirmInvite = async (token, inviteToken) => {

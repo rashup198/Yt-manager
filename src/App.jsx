@@ -26,6 +26,7 @@ import CreateWorkspace from './componets/core/dashboard/Workspace/CreateWorkspac
 import WorkspaceList from './componets/core/dashboard/Workspace/WorkspaceList';
 import WorkSpaceDetails from './componets/core/dashboard/Workspace/WorkSpaceDetails';
 import OAuthCallback from './componets/core/dashboard/Workspace/OAuthCallback';
+import EnrolledWS from './componets/core/dashboard/Workspace/EnrolledWS';
 function App() {
   const user = useSelector((state) => state.auth.user)
   console.log(user);
@@ -65,6 +66,7 @@ function App() {
         <Route path='/dashboard/workspace/workspaces' element={<WorkspaceList></WorkspaceList>}></Route>
         <Route path="/dashboard/workspace/workspace/:id" element={<WorkSpaceDetails />} />
         <Route path="/oauth-callback" element={<OAuthCallback />} /></Route>
+        <Route path="/dashboard/enrolled-space" element={<EnrolledWS></EnrolledWS>}></Route>
 
         
 

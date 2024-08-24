@@ -20,8 +20,7 @@ export default function WorkspaceList() {
                 setResponse(apiResponse); 
             }else{
                 console.log("Something went wrong");
-                toast.error("Something went wrong")
-                
+                toast.error("Something went wrong")  
             }
         }
         loadWorkspaces();

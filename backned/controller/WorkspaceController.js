@@ -56,6 +56,32 @@ exports.getAllWorkspaces = async (req, res) => {
     }
 };
 
+exports.getAllWorkspacesForEditor = async (req, res) => {
+    try {
+        const userId = req.user.id; 
+
+        // Fetch workspaces where the user is either the owner or an editor
+        const workspaces = await Workspace.find({
+            $or: [
+                { owner: userId }, 
+                { editors: userId }
+            ]
+        }).populate('editors videos');
+
+        res.status(200).json({
+            success: true,
+            workspaces
+        });
+    } catch (error) {
+        console.error('Error retrieving workspaces:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error retrieving workspaces'
+        });
+    }
+};
+
+
 exports.getWorkspaceById = async (req, res) => {
     try {
         const { id } = req.params;
