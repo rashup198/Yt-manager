@@ -60,11 +60,10 @@ exports.getAllWorkspacesForEditor = async (req, res) => {
     try {
         const userId = req.user.id; 
 
-        // Fetch workspaces where the user is either the owner or an editor
         const workspaces = await Workspace.find({
             $or: [
                 { owner: userId }, 
-                { editors: userId }
+                { editors: userId } 
             ]
         }).populate('editors videos');
 
@@ -80,7 +79,6 @@ exports.getAllWorkspacesForEditor = async (req, res) => {
         });
     }
 };
-
 
 exports.getWorkspaceById = async (req, res) => {
     try {

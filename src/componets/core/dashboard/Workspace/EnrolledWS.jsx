@@ -44,7 +44,7 @@ const EnrolledWS = () => {
                                 <p className="text-sm text-gray-500">Updated At: {new Date(workspace.updatedAt).toLocaleDateString()}</p>
                             </div>
                             <div className="mt-4 md:mt-0 flex space-x-4">
-                                <Link to={`/workspace/${workspace._id}`} className="text-blue-500 hover:underline">
+                                <Link to={`/dashboard/workspace/workspaceEditor/${workspace._id}`} className="text-blue-500 hover:underline">
                                     View Details
                                 </Link>
                                 
