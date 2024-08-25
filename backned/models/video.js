@@ -12,10 +12,25 @@ const videoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    adaptiveUrl: {
+        type: String,
+        required: true
+    },
     workspace: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workspace',
         required: true
+    },
+    approvalStatus: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
+    approvedAt: {
+        type: Date
+    },
+    rejectedAt: {
+        type: Date
     }
 }, {
     timestamps: true

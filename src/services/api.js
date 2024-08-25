@@ -22,10 +22,10 @@ export const endpoints = {
 
   export const videoEndPoints={
     UPLOAD_VIDEO:"http://localhost:5000/api/videos/upload/:id/videos",
-    APPROVE_VIDEO:"http://localhost:5000/api/videos/videos/:id/approve/:vID",
-    REJECT_VIDEO:"http://localhost:5000/api/videos/videos/:id/reject/:vId",
-    GET_VIDEO:"http://localhost:5000/api/videos/videos/:id",
-    DELETE_VIDEO:"http://localhost:5000/api/videos/videos/:id", // delete request
+    APPROVE_VIDEO:"http://localhost:5000/api/videos/videos/:id/approve/:videoId",
+    REJECT_VIDEO:"http://localhost:5000/api/videos/videos/:id/reject/:videoId",
+    GET_VIDEO:"http://localhost:5000/api/videos/videos/:videoId",
+    DELETE_VIDEO:"http://localhost:5000/api/videos/videos/:videoId", // delete request
     GET_ALL_THE_VIDEO_IN_WORKSPACE:"http://localhost:5000/api/videos/workspace/:id"
   }
 

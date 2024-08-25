@@ -12,12 +12,12 @@ router.put('/videos/:id/approve/:videoId', auth, isYouTuber, approveVideo);
 router.put('/videos/:id/reject/:videoId', auth, isYouTuber, rejectVideo);
 
 // Get all videos in a workspace
-router.get('/workspace/:id', auth,isYouTuber, getVideos);
+router.get('/workspace/:id', auth, getVideos);
 
 // Get video details
 router.get('/videos/:id', auth, getVideoDetails);
 
 // Delete video (YouTuber only)
-router.delete('/videos/:id', auth, isYouTuber, deleteVideo);
+router.delete('/videos/:id', auth, deleteVideo);
 
 module.exports = router;

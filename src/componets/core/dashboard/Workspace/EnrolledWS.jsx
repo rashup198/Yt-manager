@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAllWorkspacesForEditor } from '../../../../services/operations/WorkspcaeAPI';
 import { Link } from 'react-router-dom';
-import { AiOutlineDelete, AiOutlinePlus } from 'react-icons/ai';
 import toast from 'react-hot-toast';
 
 const EnrolledWS = () => {
@@ -31,31 +30,31 @@ const EnrolledWS = () => {
 
 
     return (
-        <div className="p-4 md:p-6 lg:p-8 bg-gray-50 min-h-screen">
-            <h1 className="text-2xl font-bold mb-4 text-pure-greys-300">Enrolled Workspaces</h1>
-            <div className="space-y-4">
+        
+        <div className="p-4 md:p-6 lg:p-8 bg-richblack-900 min-h-screen">
+            <h1 className="text-3xl font-bold mb-6 text-caribbeangreen-200">Enrolled Workspaces</h1>
+            <div className="space-y-6 flex flex-col gap-4">
                 {workspaces.length > 0 ? (
                     workspaces.map((workspace) => (
-                        <div key={workspace._id} className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between">
-                            <div>
-                                <h2 className="text-xl font-semibold mb-2">{workspace.name}</h2>
-                                <p className="text-gray-600 mb-2">{workspace.description}</p>
-                                <p className="text-sm text-gray-500">Created At: {new Date(workspace.createdAt).toLocaleDateString()}</p>
-                                <p className="text-sm text-gray-500">Updated At: {new Date(workspace.updatedAt).toLocaleDateString()}</p>
+                      <Link to={`/dashboard/workspace/workspaceEditor/${workspace._id}`}>
+                        <div key={workspace._id} className="p-6 bg-richblack-800 shadow-lg rounded-lg gap-6 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <div className="text-white">
+                                <h2 className="text-2xl font-semibold mb-2 text-caribbeangreen-100">{workspace.name}</h2>
+                                <p className="text-richblack-100 mb-2">{workspace.description}</p>
+                                <p className="text-sm text-richblack-400">Created At: {new Date(workspace.createdAt).toLocaleDateString()}</p>
                             </div>
                             <div className="mt-4 md:mt-0 flex space-x-4">
-                                <Link to={`/dashboard/workspace/workspaceEditor/${workspace._id}`} className="text-blue-500 hover:underline">
+                                <Link to={`/dashboard/workspace/workspaceEditor/${workspace._id}`} className="text-caribbeangreen-200 hover:underline">
                                     View Details
                                 </Link>
-                                
                             </div>
                         </div>
+                        </Link>
                     ))
                 ) : (
                     <p className="text-pure-greys-300">No workspaces available.</p>
                 )}
             </div>
-           
         </div>
     );
 };

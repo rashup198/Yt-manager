@@ -66,11 +66,11 @@ function App() {
         <Route path="/dashboard/workspace/create" element={<CreateWorkspace></CreateWorkspace>}></Route>
         <Route path='/dashboard/workspace/workspaces' element={<WorkspaceList></WorkspaceList>}></Route>
         <Route path="/dashboard/workspace/workspace/:id" element={<WorkSpaceDetails />} />
-        <Route path="/oauth-callback" element={<OAuthCallback />} /></Route>
+        <Route path="/oauth-callback" element={<OAuthCallback />} />
         <Route path="/dashboard/enrolled-space" element={<EnrolledWS></EnrolledWS>}></Route>
         <Route path="/dashboard/workspace/workspaceEditor/:id" element={<DetailedWS></DetailedWS>}></Route>
 
-        
+        </Route>
 
       </Routes>
     </div>

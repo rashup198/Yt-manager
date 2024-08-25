@@ -23,7 +23,11 @@ const workspaceSlice = createSlice({
             state.step =1
             state.workspace=null
             state.editWorkSpace=false
-        }
+        },
+        setVideo:(state, action)=>{
+            state.step = action.payload
+        },
+        
     }
 })
 

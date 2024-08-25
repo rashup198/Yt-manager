@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getWorkspaceById, deleteWorkspace, inviteEditor } from '../../../../services/operations/WorkspcaeAPI';
+import { approveVideo, rejectVideo } from '../../../../services/operations/videoAPI';
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineClose } from 'react-icons/ai';
 import toast from 'react-hot-toast';
 
@@ -12,7 +13,8 @@ const WorkSpaceDetails = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showInviteForm, setShowInviteForm] = useState(false);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchWorkspaceDetails() {
@@ -56,8 +58,6 @@ const WorkSpaceDetails = () => {
     setIsLoading(true);
     try {
       const inviteResponse = await inviteEditor(token, workspaceId, email);
-      console.log("this is invite res",inviteResponse);
-      
       if (inviteResponse.success) {
         toast.success('Invitation sent successfully');
         setEmail('');
@@ -71,12 +71,31 @@ const WorkSpaceDetails = () => {
     setIsLoading(false);
   };
 
+  const handleApproveVideo = async (videoId) => {
+    try {
+      await dispatch(approveVideo(token, workspaceId, videoId));
+      toast.success('Video approved successfully');
+    } catch (error) {
+      toast.error('Failed to approve video');
+    }
+  };
+
+  const handleRejectVideo = async (videoId) => {
+    try {
+      await dispatch(rejectVideo(token, workspaceId, videoId));
+      toast.success('Video rejected successfully');
+    } catch (error) {
+      toast.error('Failed to reject video');
+    }
+  };
+
   if (!workspace) {
     return <div>Loading...</div>;
   }
 
   const members = workspace.editors || [];
   const isYouTubeLinked = workspace.youtubeAccessToken && workspace.youtubeRefreshToken;
+  const videos = workspace.videos || [];
 
   return (
     <div className="p-6 sm:p-10 bg-gray-100 min-h-screen">
@@ -147,30 +166,66 @@ const WorkSpaceDetails = () => {
         <p className="text-gray-500">No members found.</p>
       )}
 
-      <div className="mt-10 flex gap-4">
-        <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105">
-          <AiOutlineEdit size={20} />
-          Edit Workspace
-        </button>
-        <button
-          className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-transform transform hover:scale-105"
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold text-richblack-400 mb-4">Videos</h2>
+
+        {videos.length > 0 ? (
+          <ul className="grid gap-4">
+            {videos.map((video) => (
+              <li key={video._id} className="bg-richblue-500 p-4 rounded-lg shadow-md w-full">
+                <div className="flex flex-col justify-between items-start">
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{video.title}</h3>
+                    <p className="text-gray-300">{video.description || 'No description available.'}</p>
+                  </div>
+                  <video
+                    className="mt-4 w-full rounded-lg"
+                    controls
+                    src={video.url}
+                    type="video/mp4"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <button 
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105"
+                    onClick={() => handleApproveVideo(video._id)}
+                  >
+                    Approve
+                  </button>
+                  <button 
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-transform transform hover:scale-105"
+                    onClick={() => handleRejectVideo(video._id)}
+                  >
+                    Reject
+                  </button>
+                </div>
+                <p className="text-sm text-gray-400 mt-2">Uploaded on: {new Date(video.createdAt).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">No videos found.</p>
+        )}
+      </div>
+
+      <div className="flex gap-4 mt-8">
+        <button 
+          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-transform transform hover:scale-105"
           onClick={handleDelete}
         >
-          <AiOutlineDelete size={20} />
+          <AiOutlineDelete className="inline-block mr-2" />
           Delete Workspace
         </button>
-
-        {/* added the condition */}
-        {
-          isYouTubeLinked ? <div className=""></div> : <button
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
-          onClick={handleLinkYouTubeChannel}
-          disabled={isYouTubeLinked}
-        >
-          Link Your YouTube Channel
-        </button>
-        }
-        
+        {!isYouTubeLinked && (
+          <button 
+            className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-transform transform hover:scale-105"
+            onClick={handleLinkYouTubeChannel}
+          >
+            Link YouTube Channel
+          </button>
+        )}
       </div>
     </div>
   );

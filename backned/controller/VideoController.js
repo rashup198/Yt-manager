@@ -1,28 +1,20 @@
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const aws = require('aws-sdk');
-const Video = require('../models/Video');
 const mongoose = require('mongoose');
+const Video = require('../models/Video');
 const Workspace = require('../models/Workspace');
+const cloudinary = require('../Middleware/cloudinary');
+const { Readable } = require('stream');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
-const s3 = new aws.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION,
-    httpOptions: {
-        timeout: 300000 // 5 minutes timeout
-    }
-});
 
 const uploadVideo = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description } = req.body;
 
-        // Validate and parse video file from request
+        // Validate video file
         if (!req.file || !req.file.buffer) {
             return res.status(400).json({
                 success: false,
@@ -39,33 +31,69 @@ const uploadVideo = async (req, res) => {
             });
         }
 
-        // Upload video to AWS S3
-        const uploadResult = await s3.upload({
-            Bucket: process.env.AWS_S3_BUCKET_NAME,
-            Key: `videos/${Date.now()}_${req.file.originalname}`,
-            Body: req.file.buffer,
-            ContentType: req.file.mimetype
-        }).promise();
+        // Convert buffer to stream
+        const bufferStream = new Readable();
+        bufferStream.push(req.file.buffer);
+        bufferStream.push(null);
 
-        // Create a new video entry in the database
-        const video = new Video({
-            title,
-            description,
-            url: uploadResult.Location, // URL from S3
-            workspace: id
-        });
+        // Upload video to Cloudinary
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {
+                resource_type: 'video',
+                folder: 'videos',
+                public_id: uuidv4(),
+                eager: [
+                    { streaming_profile: 'hd', format: 'm3u8' },
+                    { streaming_profile: 'sd', format: 'm3u8' }
+                ],
+                eager_async: true,
+                timeout: 120000
+            },
+            async (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Error uploading video to Cloudinary'
+                    });
+                }
 
-        const savedVideo = await video.save();
+                try {
+                    // Create a new video entry in the database
+                    const video = new Video({
+                        title,
+                        description,
+                        url: result.secure_url, 
+                        adaptiveUrl: result.eager[0].secure_url, 
+                        workspace: id
+                    });
 
-        // Add video to workspace's video list
-        workspace.videos.push(savedVideo._id);
-        await workspace.save();
+                    console.log("this is",video);
+                    
+                    // Save the video
+                    const savedVideo = await video.save();
 
-        res.status(201).json({
-            success: true,
-            message: 'Video uploaded successfully',
-            video: savedVideo
-        });
+                    // Add video to workspace's video list
+                    workspace.videos.push(savedVideo._id);
+                    await workspace.save();
+
+                    res.status(201).json({
+                        success: true,
+                        message: 'Video uploaded successfully',
+                        video: savedVideo
+                    });
+                } catch (err) {
+                    console.error('Error saving video:', err);
+                    res.status(500).json({
+                        success: false,
+                        message: 'Error saving video to database'
+                    });
+                }
+            }
+        );
+
+        // Pipe the video buffer to Cloudinary
+        bufferStream.pipe(uploadStream);
     } catch (error) {
         console.error('Error uploading video:', error);
         res.status(500).json({
@@ -74,6 +102,7 @@ const uploadVideo = async (req, res) => {
         });
     }
 };
+
 
 const approveVideo = async (req, res) => {
     try {
@@ -98,7 +127,7 @@ const approveVideo = async (req, res) => {
         }
 
         // Check if video is already approved
-        if (video.status === 'approved') {
+        if (video.approvalStatus === 'approved') {
             return res.status(400).json({
                 success: false,
                 message: 'Video is already approved'
@@ -106,7 +135,8 @@ const approveVideo = async (req, res) => {
         }
 
         // Approve video
-        video.status = 'approved';
+        video.approvalStatus = 'approved';
+        video.approvedAt = Date.now();
         await video.save();
 
         res.status(200).json({
@@ -122,6 +152,7 @@ const approveVideo = async (req, res) => {
         });
     }
 };
+
 
 const rejectVideo = async (req, res) => {
     try {
@@ -146,7 +177,7 @@ const rejectVideo = async (req, res) => {
         }
 
         // Check if video is already rejected
-        if (video.status === 'rejected') {
+        if (video.approvalStatus === 'rejected') {
             return res.status(400).json({
                 success: false,
                 message: 'Video is already rejected'
@@ -154,7 +185,8 @@ const rejectVideo = async (req, res) => {
         }
 
         // Reject video
-        video.status = 'rejected';
+        video.approvalStatus = 'rejected';
+        video.rejectedAt = Date.now();
         await video.save();
 
         res.status(200).json({
@@ -237,11 +269,10 @@ const getVideoDetails = async (req, res) => {
     }
 };
 
- const deleteVideo = async (req, res) => {
+const deleteVideo = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Check if video exists
         const video = await Video.findById(id);
         if (!video) {
             return res.status(404).json({
@@ -250,18 +281,11 @@ const getVideoDetails = async (req, res) => {
             });
         }
 
-        // Delete video from S3
-        const s3 = new aws.S3();
-        const videoKey = video.url.split('/').pop(); // Assuming the S3 key is the filename
-        await s3.deleteObject({
-            Bucket: process.env.AWS_S3_BUCKET_NAME,
-            Key: `videos/${videoKey}`
-        }).promise();
+        const publicId = video.url.split('/').slice(-2).join('/').split('.')[0];
+        await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
 
-        // Delete video entry from database
         await Video.deleteOne({ _id: id });
 
-        // Remove video from workspace's video list
         const workspace = await Workspace.findById(video.workspace);
         if (workspace) {
             workspace.videos.pull(id);
@@ -280,6 +304,7 @@ const getVideoDetails = async (req, res) => {
         });
     }
 };
+
 
 // get all videos 
 
