@@ -1,8 +1,8 @@
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const mongoose = require('mongoose');
-const Video = require('../models/Video.js');
 const Workspace = require('../models/Workspace.js');
+const Video = require('../models/Video');
 const cloudinary = require('../Middleware/cloudinary.js');
 const { Readable } = require('stream');
 const axios = require('axios');
