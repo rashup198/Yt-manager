@@ -5,7 +5,10 @@ const Video = require('../models/Video');
 const Workspace = require('../models/Workspace');
 const cloudinary = require('../Middleware/cloudinary');
 const { Readable } = require('stream');
-
+const axios = require('axios');
+const { google } = require('googleapis');
+const path = require('path');
+const fs = require('fs'); 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -333,6 +336,84 @@ const getAllVideos = async (req, res)=>{
     }
 }
 
+async function uploadVideoToYouTube(req, res) {
+    const { workspaceId, videoId } = req.params;
+
+    try {
+        // Find the video by ID
+        const video = await Video.findById(videoId);
+        if (!video) {
+            return res.status(404).json({
+                success: false,
+                message: 'Video not found'
+            });
+        }
+
+        // Find the workspace by ID
+        const workspace = await Workspace.findById(workspaceId);
+        if (!workspace) {
+            return res.status(404).json({ error: 'Workspace not found' });
+        }
+
+        const oauth2Client = new google.auth.OAuth2(
+            process.env.client_id,
+            process.env.client_secret,
+            process.env.redirect_uri
+        );
+
+ 
+        oauth2Client.setCredentials({
+            access_token: workspace.youtubeAccessToken,
+            refresh_token: workspace.youtubeRefreshToken,
+        });
+
+        const youtube = google.youtube({
+            version: 'v3',
+            auth: oauth2Client,
+        });
+
+        // Download video file from the URL
+        const videoFilePath = path.join(__dirname, 'temp_video.mp4');
+        const response = await axios({
+            url: video.url,
+            method: 'GET',
+            responseType: 'stream',
+        });
+        response.data.pipe(fs.createWriteStream(videoFilePath));
+
+        // Wait for the file to be saved
+        await new Promise((resolve, reject) => {
+            response.data.on('end', resolve);
+            response.data.on('error', reject);
+        });
+
+        // Upload video to YouTube
+        const uploadResponse = await youtube.videos.insert({
+            part: 'snippet,status',
+            requestBody: {
+                snippet: {
+                    title: video.title,
+                    description: video.description,
+                    tags: ['video', 'upload', 'youtube'],
+                },
+                status: {
+                    privacyStatus: 'public',
+                },
+            },
+            media: {
+                body: fs.createReadStream(videoFilePath), 
+            },
+        });
+
+        // Clean up the temporary video file
+        fs.unlinkSync(videoFilePath);
+
+        return res.status(200).json({ message: 'Video uploaded to YouTube', data: uploadResponse.data });
+    } catch (error) {
+        console.error('Error uploading video to YouTube:', error);
+        return res.status(500).json({ error: 'Failed to upload video to YouTube' });
+    }
+}
 
 module.exports = {
     upload,
@@ -342,5 +423,6 @@ module.exports = {
     getVideos,
     getVideoDetails,
     deleteVideo,
-    getAllVideos
+    getAllVideos,
+    uploadVideoToYouTube,
 };

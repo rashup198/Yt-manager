@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getWorkspaceById } from '../../../../services/operations/WorkspcaeAPI';
-import { uploadVideo, deleteVideo } from '../../../../services/operations/videoAPI';
+import { uploadVideo, deleteVideo, uploadVideoToYouTube } from '../../../../services/operations/videoAPI';
 import toast from 'react-hot-toast';
 
 const DetailedWS = () => {
@@ -66,6 +66,15 @@ const DetailedWS = () => {
         }
     };
 
+    const handleUploadToYouTube = async (videoId) => {
+        try {
+            await dispatch(uploadVideoToYouTube(token, workspaceId, videoId));
+            toast.success('Video uploaded to YouTube successfully');
+        } catch (error) {
+            toast.error('Failed to upload video to YouTube');
+        }
+    };
+
     const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
 
     if (!workspaceDetails) {
@@ -96,12 +105,23 @@ const DetailedWS = () => {
                         workspaceDetails.videos.map((video) => (
                             <li key={video._id} className="mb-1 flex items-center justify-between">
                                 <span>{video.title} - <span className="text-caribbeangreen-100">Uploaded on {new Date(video.createdAt).toLocaleDateString()}</span></span>
-                                <button
-                                    onClick={() => handleDeleteVideo(video._id)}
-                                    className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                                >
-                                    Delete
-                                </button>
+                                <p>{video.approvalStatus}</p>
+                                <div>
+                                    <button
+                                        onClick={() => handleDeleteVideo(video._id)}
+                                        className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                                    >
+                                        Delete
+                                    </button>
+                                    {video.approvalStatus === 'approved' && (
+                                        <button
+                                            onClick={() => handleUploadToYouTube(video._id)}
+                                            className="ml-2 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                        >
+                                            Upload to YouTube
+                                        </button>
+                                    )}
+                                </div>
                             </li>
                         ))
                     ) : (
@@ -148,6 +168,7 @@ const DetailedWS = () => {
                                 id="description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                rows="4"
                                 className="mt-1 block w-full text-black"
                             />
                         </div>
@@ -155,14 +176,7 @@ const DetailedWS = () => {
                             type="submit"
                             className="px-4 py-2 bg-caribbeangreen-500 text-white rounded hover:bg-caribbeangreen-600"
                         >
-                            Upload
-                        </button>
-                        <button
-                            type="button"
-                            onClick={toggleUploadForm}
-                            className="ml-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
-                        >
-                            Cancel
+                            Upload Video
                         </button>
                     </form>
                 </div>

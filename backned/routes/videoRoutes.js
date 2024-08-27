@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { auth, isEditor, isYouTuber } = require('../Middleware/auth');
-const { upload, uploadVideo, approveVideo, deleteVideo, getVideoDetails, getVideos, rejectVideo } = require('../controller/VideoController');
+const { upload, uploadVideo, approveVideo, deleteVideo, getVideoDetails, getVideos, rejectVideo,uploadVideoToYouTube } = require('../controller/VideoController');
 
 router.post('/upload/:id/videos', auth, isEditor, upload.single('video'), uploadVideo);
 
@@ -19,5 +19,8 @@ router.get('/videos/:id', auth, getVideoDetails);
 
 // Delete video (YouTuber only)
 router.delete('/videos/:id', auth, deleteVideo);
+
+router.post('/:workspaceId/videos/:videoId/upload-to-youtube', auth, uploadVideoToYouTube);
+
 
 module.exports = router;

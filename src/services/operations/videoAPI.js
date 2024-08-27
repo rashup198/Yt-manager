@@ -174,3 +174,25 @@ export function getAllVideosInWorkspace(token, workspaceId) {
         }
     };
 }
+export const uploadVideoToYouTube = (token, workspaceId, videoId) => async (dispatch) => {
+    const toastId = toast.loading("Uploading video...");
+    try {
+        const response = await axios.post(
+            `http://localhost:5000/api/videos/${workspaceId}/videos/${videoId}/upload-to-youtube`,
+            null,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        toast.success("Video uploaded successfully", { id: toastId });
+        dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_SUCCESS', payload: response.data });
+    } catch (error) {
+        toast.error("Failed to upload video", { id: toastId });
+        console.error('Error uploading video to YouTube:', error);
+        dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_FAILURE', error }); // Optionally dispatch an error action
+        throw error;
+    }
+};

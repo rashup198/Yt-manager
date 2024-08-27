@@ -115,12 +115,12 @@ const WorkSpaceDetails = () => {
       )}
 
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-richblack-400">Members</h2>
+        <h2 className="text-2xl font-bold text-richblack-400">Editors</h2>
         <button 
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105"
           onClick={() => setShowInviteForm(!showInviteForm)} 
         >
-          Invite Members
+          Add Editor
         </button>
       </div>
 
@@ -128,7 +128,7 @@ const WorkSpaceDetails = () => {
       {showInviteForm && (
         <div className="mb-6 p-4 bg-blue-500 rounded-lg shadow-md transition-transform transform scale-100">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Invite an Editor</h3>
+            <h3 className="text-xl font-semibold">Add an Editor</h3>
             <button 
               className="text-gray-500 hover:text-gray-700"
               onClick={() => setShowInviteForm(false)}
@@ -148,7 +148,7 @@ const WorkSpaceDetails = () => {
             onClick={handleInviteEditor}
             disabled={isLoading}
           >
-            {isLoading ? 'Sending...' : 'Send Invitation'}
+            {isLoading ? 'Adding...' : 'Add Editor'}
           </button>
         </div>
       )}

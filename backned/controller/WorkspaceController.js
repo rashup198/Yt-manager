@@ -239,11 +239,10 @@ exports.inviteEditor = async (req, res) => {
         await editor.save();
 
         // Generate invite link and send email
-        const inviteLink = `${process.env.FRONTEND_URL}/confirm-invite?token=${inviteToken}`;
         await mailSender(
             email,
-            'Invite from YT',
-            `You have been invited to join the workspace. Click the link to join: ${inviteLink}`
+            'added to StreamLine WS',
+            `You have been added the workspace.`
         );
 
         res.status(200).json({
@@ -293,7 +292,7 @@ exports.confirmInvite = async (req, res) => {
         await workspace.save();
 
         editor.workspaces.push(workspace._id);
-        editor.invites = editor.invites.filter(inv => inv.token !== token); // Remove used invite
+        editor.invites = editor.invites.filter(inv => inv.token !== token); 
         await editor.save();
 
         res.status(200).json({
