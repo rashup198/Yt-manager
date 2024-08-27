@@ -1,6 +1,5 @@
 const Workspace = require('../models/Workspace');
 const User = require('../models/User');
-const Video = require('../models/Video');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
