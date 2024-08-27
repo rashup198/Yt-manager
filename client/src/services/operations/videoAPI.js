@@ -178,7 +178,7 @@ export const uploadVideoToYouTube = (token, workspaceId, videoId) => async (disp
     const toastId = toast.loading("Uploading video...");
     try {
         const response = await axios.post(
-            `http://localhost:5000/api/videos/${workspaceId}/videos/${videoId}/upload-to-youtube`,
+            `https://yt-manager.onrender.com/api/videos/${workspaceId}/videos/${videoId}/upload-to-youtube`,
             null,
             {
                 headers: {
@@ -192,7 +192,7 @@ export const uploadVideoToYouTube = (token, workspaceId, videoId) => async (disp
     } catch (error) {
         toast.error("Failed to upload video", { id: toastId });
         console.error('Error uploading video to YouTube:', error);
-        dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_FAILURE', error }); // Optionally dispatch an error action
+        dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_FAILURE', error }); 
         throw error;
     }
 };
