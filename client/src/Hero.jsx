@@ -1,7 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  const handleGetStarted = () => {
+    if (user) {
+      navigate('/dashboard/my-profile');
+    } else {
+      navigate('/signup');
+    }
+  };
+
   return (
     <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20 px-6 lg:px-20">
       <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-between">
@@ -17,23 +29,24 @@ const Hero = () => {
             your creative process smoother and more efficient, even in remote locations.
           </p>
           <div className="flex flex-col md:flex-row">
-            <Link to="/signup">
-            <button className="bg-white text-blue-600 font-semibold py-2 px-6 rounded-lg shadow-lg mb-4 md:mb-0 md:mr-4 hover:bg-gray-100 transition-all duration-300">
+            <button 
+              onClick={handleGetStarted}
+              className="bg-white text-blue-600 font-semibold py-2 px-6 rounded-lg shadow-lg mb-4 md:mb-0 md:mr-4 hover:bg-gray-100 transition-all duration-300"
+            >
               Get Started
             </button>
-            </Link>
             <Link to="/about">
-            <button className="bg-transparent border border-white text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
-              Learn More
-            </button>
+              <button className="bg-transparent border border-white text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-300">
+                Learn More
+              </button>
             </Link>
           </div>
         </div>
 
-
+        {/* Image Section */}
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-10 lg:mb-0">
           <img 
-            src="" 
+            src="/path/to/your/image.jpg" 
             alt="Hero Illustration" 
             className="w-3/4 lg:w-full object-cover rounded-lg shadow-lg"
           />

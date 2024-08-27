@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { sendOTP } from "../../../services/operations/authAPI";
 import { setSignupData } from "../../../slices/authSlice";
-import signupImg from "../../../assets/Images/singnup.jpg";
+import signupImg from "../../../assets/singnup.jpg";
 import Tab from "../../common/Tab";
 
 function SignupForm() {

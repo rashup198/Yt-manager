@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { VscSignOut } from "react-icons/vsc";
+import { IoClose } from "react-icons/io5";
+import { MdMenuOpen } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -9,23 +11,26 @@ import ConfirmationModal from "../../common/ConfirmationModal";
 import SidebarLink from "./SidebarLink";
 
 export default function Sidebar() {
-  const { user, loading: profileLoading } = useSelector((state) => state.auth);
-  const { loading: authLoading } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [confirmationModal, setConfirmationModal] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Default to open
 
-  if (profileLoading || authLoading) {
-    return (
-      <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r border-richblack-700 bg-richblack-800">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+
 
   return (
     <>
-      <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r border-richblack-700 bg-richblack-800 p-6 md:p-8">
+      {/* Sidebar */}
+      <div
+        className={`flex ${
+          isSidebarOpen ? "flex" : "hidden"
+        } h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r border-richblack-700 bg-richblack-800 p-6 md:p-8`}
+      >
         <div className="flex flex-col gap-4">
           {sidebarLinks.map((link) => {
             if (link.type && user?.role !== link.type) return null;
@@ -58,6 +63,15 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
+
+      {/* Toggle Button for Mobile */}
+      <button
+        className="fixed left-4 bottom-32 z-[3000] bg-[#BCAD3C] text-white p-2 rounded-md md:hidden"
+        onClick={toggleSidebar}
+      >
+        {isSidebarOpen ? <IoClose /> : <MdMenuOpen />}
+      </button>
+
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   );

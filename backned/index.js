@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: "https://yt-pri-manager.netlify.app",
+    origin: "http://localhost:5173",
     credentials: true
 }));
 
