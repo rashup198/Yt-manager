@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import hero from "./assets/hero.png"
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -44,9 +45,9 @@ const Hero = () => {
         </div>
 
         {/* Image Section */}
-        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-10 lg:mb-0">
+        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-10 lg:mb-0 lg:max-h-[500px]">
           <img 
-            src="/path/to/your/image.jpg" 
+            src={hero} 
             alt="Hero Illustration" 
             className="w-3/4 lg:w-full object-cover rounded-lg shadow-lg"
           />

@@ -72,7 +72,7 @@ function SignupForm() {
         <img
           src={signupImg}
           alt="Sign up"
-          className="w-full lg:w-full rounded-lg shadow-lg hidden lg:block"
+          className="w-full lg:w-full rounded-lg max-h-[700px] shadow-lg hidden lg:block "
         />
       </div>
 
