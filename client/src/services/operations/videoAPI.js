@@ -55,7 +55,7 @@ export function approveVideo(token, workspaceId, videoId) {
 
         try {
             const response = await apiConnector(
-                "PUT", // Updated to PUT
+                "PUT", 
                 `${APPROVE_VIDEO.replace(':id', workspaceId).replace(':videoId', videoId)}`,
                 {},
                 {
@@ -80,7 +80,7 @@ export function rejectVideo(token, workspaceId, videoId) {
         const toastId = toast.loading("Rejecting video...");
         try {
             const response = await apiConnector(
-                "PUT", // Updated to PUT
+                "PUT", 
                 `${REJECT_VIDEO.replace(':id', workspaceId).replace(':videoId', videoId)}`,
                 {},
                 {

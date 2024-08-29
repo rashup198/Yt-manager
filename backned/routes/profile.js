@@ -6,16 +6,16 @@ const { auth } = require("../Middleware/auth");
 const { updateProfile, deleteProfile, getAllUserDetails, getWorkSpace ,changePassword} = require("../controller/Profile.js");
 
 // Delete profile
-router.delete('/deleteProfile', auth, deleteProfile);
+router.delete('deleteProfile', auth, deleteProfile);
 
 // Update profile
-router.put('/updateProfile', auth, updateProfile);
+router.put('updateProfile', auth, updateProfile);
 
 // Get all user details
-router.get('/getUserDetails', auth, getAllUserDetails);
+router.get('getUserDetails', auth, getAllUserDetails);
 
 // Get workspace 
-router.get('/getWorkspace', auth, getWorkSpace);
-router.post('/changePassword', auth, changePassword);
+router.get('getWorkspace', auth, getWorkSpace);
+router.post('changePassword', auth, changePassword);
 
 module.exports = router;
