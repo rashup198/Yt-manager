@@ -6,7 +6,7 @@ const ContactUs = () => {
     email: "",
     subject: "",
     message: "",
-    type: "suggestion", // 'suggestion' or 'bug'
+    type: "suggestion", 
   });
 
   const handleChange = (e) => {
@@ -19,7 +19,6 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here, e.g., API call
     console.log("Form submitted", formData);
   };
 

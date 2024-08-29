@@ -40,7 +40,7 @@ export function uploadVideo(token, workspaceId, file, title, description) {
             dispatch(setLoading(false));
             return response.data;
         } catch (error) {
-            console.error('Error uploading video:', error);
+            // console.error('Error uploading video:', error);
             toast.error("Failed to upload video", { id: toastId });
             dispatch(setLoading(false));
             throw error;
@@ -67,7 +67,7 @@ export function approveVideo(token, workspaceId, videoId) {
             dispatch(setLoading(false));
             return response.data;
         } catch (error) {
-            console.error('Error approving video:', error);
+            // console.error('Error approving video:', error);
             toast.error("Failed to approve video", { id: toastId });
             dispatch(setLoading(false));
             throw error;
@@ -92,7 +92,7 @@ export function rejectVideo(token, workspaceId, videoId) {
             dispatch(setLoading(false));
             return response.data;
         } catch (error) {
-            console.error('Error rejecting video:', error);
+            // console.error('Error rejecting video:', error);
             toast.error("Failed to reject video", { id: toastId });
             dispatch(setLoading(false));
             throw error;
@@ -117,7 +117,7 @@ export function getVideo(token, videoId) {
             dispatch(setLoading(false));
             return response.data.video;
         } catch (error) {
-            console.error('Error fetching video details:', error);
+            // console.error('Error fetching video details:', error);
             toast.error("Failed to fetch video details");
             dispatch(setLoading(false));
             throw error;
@@ -143,7 +143,7 @@ export function deleteVideo(token, videoId) {
             dispatch(setLoading(false));
             return response.data;
         } catch (error) {
-            console.error('Error deleting video:', error);
+            // console.error('Error deleting video:', error);
             toast.error("Failed to delete video", { id: toastId });
             dispatch(setLoading(false));
             throw error;
@@ -191,7 +191,7 @@ export const uploadVideoToYouTube = (token, workspaceId, videoId) => async (disp
         dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_SUCCESS', payload: response.data });
     } catch (error) {
         toast.error("Failed to upload video", { id: toastId });
-        console.error('Error uploading video to YouTube:', error);
+        // console.error('Error uploading video to YouTube:', error);
         dispatch({ type: 'UPLOAD_VIDEO_TO_YOUTUBE_FAILURE', error }); 
         throw error;
     }

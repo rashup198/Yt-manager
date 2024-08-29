@@ -12,12 +12,12 @@ const EnrolledWS = () => {
         async function loadWorkspacesForEditor() {
             try {
                 const apiResponse = await getAllWorkspacesForEditor(token);
-                console.log(apiResponse);
+                // console.log(apiResponse);
 
                 if (apiResponse && Array.isArray(apiResponse)) {
                     setWorkspaces(apiResponse);
                 } else {
-                    console.log("Something went wrong");
+                    // console.log("Something went wrong");
                     toast.error("Something went wrong");
                 }
             } catch (error) {

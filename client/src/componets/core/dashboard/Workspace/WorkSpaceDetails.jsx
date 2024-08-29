@@ -47,7 +47,8 @@ const WorkSpaceDetails = () => {
 
   const handleLinkYouTubeChannel = () => {
     const clientId = "1012019680651-cmh21og25lecm95urpv72uehnkf3vvv5.apps.googleusercontent.com";
-    const redirectUri = "http://localhost:5173/oauth-callback";
+    // const redirectUri = "http://localhost:5173/oauth-callback";
+    const redirectUri = "https://yt-pri-manager.netlify.app/oauth-callback";
 
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/youtube.upload&access_type=offline&prompt=consent&state=${workspaceId}`;
 

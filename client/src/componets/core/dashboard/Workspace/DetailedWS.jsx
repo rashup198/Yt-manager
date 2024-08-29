@@ -20,7 +20,7 @@ const DetailedWS = () => {
         async function fetchWorkspaceDetails() {
             try {
                 const workspaceDetails = await getWorkspaceById(token, workspaceId);
-                console.log("Workspace Details:", workspaceDetails);
+                // console.log("Workspace Details:", workspaceDetails);
 
                 if (workspaceDetails) {
                     setWorkspaceDetails(workspaceDetails);

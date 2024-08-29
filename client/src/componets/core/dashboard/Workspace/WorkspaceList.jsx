@@ -14,12 +14,12 @@ export default function WorkspaceList() {
     useEffect(() => {
         async function loadWorkspaces() {
             const apiResponse = await getAllWorkspaces(token);
-            console.log("this is my api response", apiResponse);
+            // console.log("this is my api response", apiResponse);
 
             if(apiResponse){
                 setResponse(apiResponse); 
             }else{
-                console.log("Something went wrong");
+                // console.log("Something went wrong");
                 toast.error("Something went wrong")  
             }
         }

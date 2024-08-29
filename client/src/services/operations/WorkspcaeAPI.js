@@ -50,10 +50,10 @@ export const getAllWorkspaces = async (token) => {
         }
         
         result = response?.data?.workspaces; 
-        console.log(result);
+        // console.log(result);
         
     } catch (error) {
-        console.log("Get all workspaces API ERROR:", error);
+        // console.log("Get all workspaces API ERROR:", error);
         toast.error(error.message || "Failed to load workspaces"); 
     } finally {
         toast.dismiss(toastId); 
@@ -77,7 +77,7 @@ export const getAllWorkspacesForEditor = async (token) => {
         }
 
         result = response?.data?.workspaces;
-        console.log("This is workspace data:", result);
+        // console.log("This is workspace data:", result);
 
     } catch (error) {
         console.error("There was an error getting all workspaces for editors:", error);
@@ -98,7 +98,7 @@ export const getWorkspaceById = async (token, workspaceId) => {
             Authorization: `Bearer ${token}`,
         });
 
-        console.log("Workspace Details API Response:", response);
+        // console.log("Workspace Details API Response:", response);
 
         if (!response.data.success) {
             throw new Error(response.data.message);
@@ -107,7 +107,7 @@ export const getWorkspaceById = async (token, workspaceId) => {
         result = response.data.workspace;
         toast.success("Workspace details loaded successfully!");
     } catch (error) {
-        console.log("Workspace API Error:", error);
+        // console.log("Workspace API Error:", error);
         toast.error(error.response?.data?.message || "Failed to load workspace details");
     } finally {
         toast.dismiss(tokenId);
@@ -131,11 +131,11 @@ export const tokenStorage = async (token, workspaceId, access_token, refresh_tok
             throw new Error(response.data.message);
         }
 
-        return true; // Indicate success
+        return true; 
     } catch (error) {
-        console.log("Token Storage API Error:", error);
+        // console.log("Token Storage API Error:", error);
         toast.error(error.response?.data?.message || "Failed to store tokens");
-        return false; // Indicate failure
+        return false;
     }
 };
 
@@ -169,7 +169,7 @@ export const deleteWorkspace = async (token, workspaceId, onSuccess) => {
             },
         });
 
-        console.log("Delete Workspace API Response:", response);
+        // console.log("Delete Workspace API Response:", response);
 
         if (response.data.success) {
             toast.success("Workspace deleted successfully");
@@ -186,7 +186,8 @@ export const deleteWorkspace = async (token, workspaceId, onSuccess) => {
 };
 
 
-const invite ="http://localhost:5000/api/workspace/workspaces/"
+// const invite ="http://localhost:5000/api/workspace/workspaces/"
+const invite ="https://yt-manager.onrender.com/api/workspace/workspaces/"
 
 export const inviteEditor = async (token, workspaceId, email) => {
     try {
@@ -200,11 +201,11 @@ export const inviteEditor = async (token, workspaceId, email) => {
                 }
             }
         );
-        console.log("Invitation response:", response.data);
+        // console.log("Invitation response:", response.data);
         
         return response.data;
     } catch (error) {
-        console.error("Error inviting editor:", error);
+        console.error("Error adding editor:", error);
         throw new Error(error.response ? error.response.data.message : error.message);
     }
 };
