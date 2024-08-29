@@ -22,7 +22,7 @@ const {
 export const createWorkspace = async (token, workspaceData) => {
     try {
         const response = await axios.post(
-            `${API_BASE_URL}/workspace/workspaces`,
+            `${API_BASE_URL}/api/workspace/workspaces`,
             workspaceData,
             {
                 headers: {
