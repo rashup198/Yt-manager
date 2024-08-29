@@ -372,7 +372,7 @@ exports.resetPasswordToken = async (req, res) => {
       }
     );
 
-    const url = `https://yt-pri-manager.netlify.app/update-password/${token}`;
+    const url = `https://streamline-yt.netlify.app/update-password/${token}`;
     
     await mailSender(
       email,
