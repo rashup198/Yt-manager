@@ -27,11 +27,7 @@ const AboutUs = () => {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">Our Vision</h2>
           <p className="text-lg font-light text-gray-300">
-            Our project is designed to transform how YouTubers manage their
-            content. By providing an intuitive platform for video uploads,
-            approvals, and collaboration with editors, we're helping creators
-            streamline their workflow and focus on what they do best—creating
-            amazing content.
+          Our project makes it easier for YouTubers to manage their content. We have tried to make a user-friendly platform for uploading videos, getting approvals, and working with editors, so creators can focus more on making great content.
           </p>
         </div>
       </section>
@@ -44,7 +40,7 @@ const AboutUs = () => {
             <div className="p-6 bg-richblack-600 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold mb-4">Seamless Uploads</h3>
               <p className="text-gray-300">
-                Upload your videos effortlessly with our integration,
+                Upload your videos effortlessly with our integrations,
                 ensuring security and reliability.
               </p>
             </div>

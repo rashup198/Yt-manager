@@ -34,12 +34,6 @@ exports.sendOTP = async (req, res) => {
 
         const otpPayload = { otp, email };
 
-        await mailSender(
-            email,
-            "OTP Verification",
-            `Your OTP for email verification is ${otp}. Please enter this OTP to verify your email.`
-        );
-
         // Save OTP in db
         await OTP.create(otpPayload);
 
@@ -378,7 +372,7 @@ exports.resetPasswordToken = async (req, res) => {
       }
     );
 
-    const url = `http://localhost:5173/update-password/${token}`;
+    const url = `https://yt-pri-manager.netlify.app/update-password/${token}`;
     
     await mailSender(
       email,

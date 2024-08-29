@@ -104,6 +104,11 @@ const ContactUs = () => {
           </button>
         </form>
       </div>
+      <footer className="bg-gray-800 py-4 text-center text-white">
+        <p className="text-gray-400">
+          Built with <span className=" text-[#fb0202]">❤</span> by <a href="https://github.com/rashup198" className=" underline underline-offset-2" target="_black">Priyanshu Pandey</a>
+        </p>
+      </footer>
     </div>
   );
 };
