@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Base URL of your API
 // const API_BASE_URL = 'http://localhost:5000/api'; 
-const API_BASE_URL= 'https://yt-manager.onrender.com/'
+const API_BASE_URL= 'https://yt-manager.onrender.com'
 const {
     CREATE_WORKSPACE,
     GET_ALL_WORKSPACE,
