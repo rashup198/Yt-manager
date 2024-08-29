@@ -21,7 +21,7 @@ const OAuthCallback = () => {
           client_id: "1012019680651-cmh21og25lecm95urpv72uehnkf3vvv5.apps.googleusercontent.com",
           client_secret: "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",
           // redirect_uri: "http://localhost:5173/oauth-callback",
-          redirect_uri: "https://yt-pri-manager.netlify.app/oauth-callback",
+          redirect_uri: "https://streamline-yt.netlify.app/oauth-callback",
           grant_type: 'authorization_code',
         });
 
