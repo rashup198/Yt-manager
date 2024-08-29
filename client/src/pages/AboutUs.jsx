@@ -40,11 +40,11 @@ const AboutUs = () => {
       <section className="bg-richblack-800 py-20 px-4 lg:px-20">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-8 text-center">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             <div className="p-6 bg-richblack-600 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold mb-4">Seamless Uploads</h3>
               <p className="text-gray-300">
-                Upload your videos effortlessly with our AWS S3 integration,
+                Upload your videos effortlessly with our integration,
                 ensuring security and reliability.
               </p>
             </div>
@@ -55,13 +55,6 @@ const AboutUs = () => {
               <p className="text-gray-300">
                 Control who sees what with our robust role-based access for
                 YouTubers and editors.
-              </p>
-            </div>
-            <div className="p-6 bg-richblack-600 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">Real-Time Alerts</h3>
-              <p className="text-gray-300">
-                Stay in the loop with instant notifications and streamlined
-                approval workflows.
               </p>
             </div>
             <div className="p-6 bg-richblack-600 rounded-lg shadow-lg">
@@ -76,29 +69,16 @@ const AboutUs = () => {
                 Your data is safe with our top-notch security protocols.
               </p>
             </div>
-            <div className="p-6 bg-richblack-600 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">Advanced Analytics</h3>
-              <p className="text-gray-300">
-                Gain insights into your content performance with detailed analytics.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Future Goals Section */}
-      <section className="py-20 px-4 lg:px-20">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8">Future Goals</h2>
-          <p className="text-lg font-light text-gray-300">
-            As we continue to develop this project, our goal is to expand its
-            capabilities to support more creators and offer advanced analytics,
-            AI-driven content suggestions, and enhanced collaboration tools.
-            We're committed to evolving with the needs of our users and staying
-            at the forefront of digital content management.
-          </p>
-        </div>
-      </section>
+      {/* Footer Section */}
+      <footer className="bg-gray-800 py-4 text-center">
+        <p className="text-gray-400">
+          Built with <span className=" text-[#fb0202]">❤</span> by <a href="https://github.com/rashup198" className=" underline underline-offset-2" target="_black">Priyanshu Pandey</a>
+        </p>
+      </footer>
     </div>
   );
 };

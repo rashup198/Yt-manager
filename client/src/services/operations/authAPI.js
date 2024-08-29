@@ -85,7 +85,7 @@ export function login(email,password,navigate){
         try {
             const response = await apiConnector("POST", LOGIN_API,{
                 email, password
-            })
+            })  
 
             // console.log("LOGIN API response ...........", response);
             

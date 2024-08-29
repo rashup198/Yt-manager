@@ -17,11 +17,6 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted", formData);
-  };
-
   return (
     <div className="bg-gray-900 min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-300 text-yellow-50">
       <div className="max-w-lg mx-auto bg-richblack-800 p-8 rounded-lg shadow-lg">
@@ -29,7 +24,11 @@ const ContactUs = () => {
         <p className="text-gray-400 mb-6">
           We're here to help! Please use the form below to send us your suggestions or report any bugs.
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 ">
+        <form 
+          method="POST" 
+          action="https://getform.io/f/7b6b959e-32b6-4f96-a96b-f02e02c666ee" 
+          className="flex flex-col gap-y-4"
+        >
           <div className="flex gap-x-4">
             <label className="w-1/2">
               <p className="mb-1 text-sm leading-5 text-gray-400">Name</p>

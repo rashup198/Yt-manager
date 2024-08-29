@@ -83,11 +83,18 @@ function LoginForm({ title, description1, description2, image, formType }) {
                 <AiOutlineEye fontSize={24} fill="#AFB2BF" />
               )}
             </span>
+            <div className=" flex justify-between">
+            <Link to="/signup">
+              <p className="mt-2 text-xs text-yellow-50 text-right hover:underline">
+                Don't have account?
+              </p>
+            </Link>
             <Link to="/forgot-password">
               <p className="mt-2 text-xs text-yellow-50 text-right hover:underline">
                 Forgot Password?
               </p>
             </Link>
+            </div>
           </label>
           <button
             type="submit"
