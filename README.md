@@ -53,8 +53,3 @@ Contributing
 Contributions are welcome! Please open an issue or submit a pull request if you'd like to contribute.
 
 
-Author
-Priyanshu Kumar Pandey
-GitHub
-Portfolio
-LinkedIn
