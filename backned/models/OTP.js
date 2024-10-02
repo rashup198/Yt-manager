@@ -22,11 +22,25 @@ const OTPSchema = new mongoose.Schema({
 // Function to generate OTP and send email
 async function sendVerificationEmail(email, otp) {
   try {
-    const mailResponse = await mailSender(
+    const mailResponse = await await mailSender(
       email,
       "OTP Verification",
-      `Your OTP for email verification is ${otp}. Please enter this OTP to verify your email.`
-  );
+      `
+      <p>Hello,</p>
+    
+      <p>We received a request to verify the email address associated with your account. To complete the verification process, please use the OTP (One-Time Password) provided below:</p>
+    
+      <h3>Your OTP: <strong>${otp}</strong></h3>
+    
+      <p>Please enter this OTP within the next 5 minutes to verify your email address. For security reasons, the OTP will expire after that time.</p>
+    
+      <p>If you did not request this verification, please ignore this email.</p>
+    
+      <p>If you need any assistance, feel free to contact me rashup198@gmail.com</p>
+    
+      <p>Thank you,</p>
+      `
+    );
     console.log("mailResponse", mailResponse);
   } catch (error) {
     console.log("Error in sending verification email", error);
