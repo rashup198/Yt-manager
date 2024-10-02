@@ -27,10 +27,13 @@ function ForgotPassword() {
             {!emailSent ? "Reset your password" : "Check your email"}
           </h1>
           <p className="text-gray-400 mb-6 text-white text-[14px]">
-            {!emailSent
-              ? "No worries! Just enter your email address"
-              : `We've sent the password reset instructions to ${email}.`}
+            {!emailSent ? (
+              "No worries! Just enter your email address"
+            ) : (
+              <>We've sent the password reset instructions to <span className="font-extrabold">"{email}"</span></>
+            )}
           </p>
+
           <form onSubmit={handleOnSubmit} className="space-y-4">
             {!emailSent && (
               <label className="block">
