@@ -19,6 +19,8 @@ const VerifyEmail = () => {
     dispatch(signUp(email, password, firstName, lastName, role, otp, navigate));
   };
 
+  
+
   useEffect(() => {
     if (!signupData) {
       navigate('/signup');
@@ -34,8 +36,8 @@ const VerifyEmail = () => {
       ) : (
         <div className="bg-richblack-800 p-10 rounded-lg shadow-lg w-full max-w-md text-yellow-50">
           <h1 className="text-3xl font-semibold text-yellow-400 mb-6 text-center">Verify Email</h1>
-          <p className="text-gray-300 mb-8 text-center">Enter the verification code we just sent to your email address</p>
-          <form onSubmit={handleOnSubmit} className="space-y-4">
+          <p className="text-gray-300 mb-8 text-center">Enter the verification code we just sent to your email address <span className=' font-extrabold'>"{signupData.email}"</span></p>
+          <form onSubmit={handleOnSubmit} className="space-y-4 flex flex-col justify-center items-center">
             <OtpInput
               value={otp}
               onChange={setOtp}
