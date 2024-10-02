@@ -30,7 +30,7 @@ import EnrolledWS from './componets/core/dashboard/Workspace/EnrolledWS';
 import DetailedWS from './componets/core/dashboard/Workspace/DetailedWS';
 function App() {
   const user = useSelector((state) => state.auth.user)
-  console.log(user);
+  // console.log(user);
   return (
     <div  className=" w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar></Navbar>

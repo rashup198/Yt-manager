@@ -21,7 +21,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: "https://streamline-yt.netlify.app",
+    //origin: "http://localhost:5173",
+     origin: "https://streamline-yt.netlify.app",
     credentials: true
 }));
 
