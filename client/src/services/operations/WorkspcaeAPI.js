@@ -4,10 +4,11 @@ import { apiConnector } from '../apiConnector';
 import {workSpaceEndPoints} from '../api'
 import { useNavigate } from 'react-router-dom';
 
-
+// const invite ="http://localhost:5000/api/workspace/workspaces/"
+const invite ="https://yt-manager.onrender.com/api/workspace/workspaces/"
 // Base URL of your API
- const API_BASE_URL = 'http://localhost:5000/api'; 
-//const API_BASE_URL= 'https://yt-manager.onrender.com'
+// const API_BASE_URL = 'http://localhost:5000/api'; 
+const API_BASE_URL= 'https://yt-manager.onrender.com'
 const {
     CREATE_WORKSPACE,
     GET_ALL_WORKSPACE,
@@ -184,10 +185,6 @@ export const deleteWorkspace = async (token, workspaceId, onSuccess) => {
         toast.dismiss(toastId);
     }
 };
-
-
- const invite ="http://localhost:5000/api/workspace/workspaces/"
-//const invite ="https://yt-manager.onrender.com/api/workspace/workspaces/"
 
 export const inviteEditor = async (token, workspaceId, email) => {
     try {
