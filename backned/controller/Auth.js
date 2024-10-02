@@ -375,10 +375,28 @@ exports.resetPasswordToken = async (req, res) => {
     const url = `https://streamline-yt.netlify.app/update-password/${token}`;
     
     await mailSender(
-      email,
-      "Password Reset",
-      `Your link for password reset is ${url}. Please click this URL to reset your password.`
-    );
+        email,
+        "Password Reset Request",
+        `
+        <p>Hello,</p>
+      
+        <p>We received a request to reset the password for your account associated with this email address.</p>
+      
+        <p>If you made this request, please click the link below to reset your password:</p>
+      
+        <p><a href="${url}">Reset Password Link</a></p>
+      
+        <p>This link will expire in 24 hours for security reasons.</p>
+      
+        <p>If you did not request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
+      
+        <p>If you encounter any issues or need further assistance, please contact me at <a href="mailto:rashup198@gmail.com">rashup198@gmail.com</a>.</p>
+      
+        <p>Thank you,</p>
+        `
+      );
+      
+      
 
     res.json({
       success: true,
