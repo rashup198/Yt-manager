@@ -32,11 +32,12 @@ export default function WorkspaceList() {
 
 
     return (
-        <div className="p-6 sm:p-10 bg-gray-100 min-h-screen">
+        <div className=" w-full">
+        <div className="p-6 sm:p-10 bg-gray-100 min-h-screen ">
             <h1 className="text-3xl font-extrabold text-richblack-400 mb-6">My Workspaces</h1>
             <div className="flex flex-col gap-6">
                 {response.length > 0 ? (
-                    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <ul className="flex flex-col w-fit gap-5">
                         {response.map((workspace) => (
                             <div className="">
                             <li key={workspace._id} className="bg-white p-5 rounded-lg shadow-lg flex gap-4 justify-between items-center transition-transform transform hover:scale-105">
@@ -58,6 +59,7 @@ export default function WorkspaceList() {
                     <span className="text-lg font-semibold">Create New Workspace</span>
                 </Link>
             </div>
+        </div>
         </div>
     );
 }

@@ -11,7 +11,7 @@ const workspace = require("./routes/workspaceRoutes")
 const videoRoutes  = require("./routes/videoRoutes")
 const profile = require("./routes/profile")
 require('dotenv').config();
-app.use(express.json()); // For parsing application/json
+app.use(express.json()); 
 const database = require("./config/database")
 app.use(cookieParser());
 
@@ -21,8 +21,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
-    //origin: "http://localhost:5173",
-     origin: "https://streamline-yt.netlify.app",
+    origin: "http://localhost:5173",
+    //origin: "https://streamline-yt.netlify.app",
     credentials: true
 }));
 
