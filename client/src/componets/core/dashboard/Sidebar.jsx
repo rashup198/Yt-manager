@@ -15,7 +15,7 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [confirmationModal, setConfirmationModal] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Default to open
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
