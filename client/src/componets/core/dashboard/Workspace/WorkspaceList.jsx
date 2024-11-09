@@ -11,7 +11,7 @@ export default function WorkspaceList() {
     const [response, setResponse] = useState({ data: [] });
 
 
-    useEffect(() => {
+    useEffect(() => {   
         async function loadWorkspaces() {
             const apiResponse = await getAllWorkspaces(token);
             // console.log("this is my api response", apiResponse);
@@ -40,7 +40,7 @@ export default function WorkspaceList() {
                     <ul className="flex flex-col w-fit gap-5">
                         {response.map((workspace) => (
                             <div className="">
-                            <li key={workspace._id} className="bg-white p-5 rounded-lg shadow-lg flex gap-4 justify-between items-center transition-transform transform hover:scale-105">
+                            <li key={workspace._id} className="bg-white p-5 rounded-lg      shadow-lg flex gap-4 justify-between items-center transition-transform transform hover:scale-105">
                                 <Link to={`/dashboard/workspace/workspace/${workspace._id}`} className="text-xl font-bold text-richblack-800 hover:text-blue-500">
                                     {workspace.name}
                                 </Link>

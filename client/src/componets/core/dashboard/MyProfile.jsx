@@ -6,6 +6,7 @@ import { formattedDate } from '../../../data/dateFormatter';
 
 export default function MyProfile() {
   const { user } = useSelector((state) => state.auth);
+  console.log("this is the user data",user)
   const navigate = useNavigate();
 
   return (
@@ -15,7 +16,7 @@ export default function MyProfile() {
       <div className="flex flex-col lg:flex-row lg:justify-between items-center lg:items-start bg-richblack-800 rounded-lg shadow-lg p-6 lg:p-12">
         <div className="flex flex-col items-center lg:flex-row lg:items-start lg:gap-x-8">
           <img
-            src={`https://api.dicebear.com/5.x/initials/svg?seed=${user.firstName} ${user.lastName}&background=%23fff&radius=50`}
+             src={`https://api.dicebear.com/5.x/initials/svg?seed=${user.firstName} ${user.lastName}&background=%23fff&radius=50`}
             alt={`profile-${user?.firstName}`}
             className="aspect-square w-24 h-24 rounded-full border-2 border-richblack-700 object-cover mb-4 lg:mb-0"
           />
