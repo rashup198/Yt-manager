@@ -23,7 +23,7 @@ const uploadVideo = async (req, res) => {
                 success: false,
                 message: 'No video file provided'
             });
-        }
+        }``
 
         // Check if workspace exists
         const workspace = await Workspace.findById(id);

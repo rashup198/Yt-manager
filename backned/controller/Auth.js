@@ -54,7 +54,7 @@ exports.sendOTP = async (req, res) => {
 exports.signUp = async (req, res) => {
     try {
         const { email, password, firstName, lastName, role } = req.body;
-
+        
         // Check if all required fields are provided
         if (!email || !password || !firstName || !lastName || !role) {
             return res.status(400).json({

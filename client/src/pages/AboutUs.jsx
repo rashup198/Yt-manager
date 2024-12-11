@@ -27,7 +27,7 @@ const AboutUs = () => {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">Our Vision</h2>
           <p className="text-lg font-light text-gray-300">
-          Our project makes it easier for YouTubers to manage their content. We have tried to make a user-friendly platform for uploading videos, getting approvals, and working with editors, so creators can focus more on making great content.
+            Our project makes it easier for YouTubers to manage their content. We have tried to make a user-friendly platform for uploading videos, getting approvals, and working with editors, so creators can focus more on making great content.
           </p>
         </div>
       </section>
@@ -63,6 +63,29 @@ const AboutUs = () => {
               <h3 className="text-2xl font-semibold mb-4">Secure Authentication</h3>
               <p className="text-gray-300">
                 Your data is safe with our top-notch security protocols.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20 px-4 lg:px-20 bg-gray-900">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-8">Meet the Team</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
+              <h3 className="text-2xl font-semibold mb-4">Priyanshu Pandey</h3>
+              <p className="text-gray-300">Developer</p>
+              <p className="text-gray-400 mt-2">
+                Priyanshu worked on developing the core functionality of the platform, ensuring smooth performance and robust features.
+              </p>
+            </div>
+            <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
+              <h3 className="text-2xl font-semibold mb-4">Abhay</h3>
+              <p className="text-gray-300">UI/UX Designer</p>
+              <p className="text-gray-400 mt-2">
+                Abhay designed the user interface and user experience, making the platform intuitive and visually appealing.
               </p>
             </div>
           </div>
